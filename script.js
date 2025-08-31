@@ -1,7 +1,7 @@
 const form = document.getElementById('rsvpForm');
 
 // Replace with your Google Apps Script Web App URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby986VP6otheenpZpH9h5ZJ0os7bIFaCZlI_T9JcHXDGuh7zS_ETj1c4K6eq3tV0VwCOg/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyECseoUAeWOAKCXHN50WfNDPG4Hi7IUnmPBcfbbkqi/dev";
 
 form.addEventListener('submit', function(e) {
   e.preventDefault();

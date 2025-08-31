@@ -1,7 +1,7 @@
 const form = document.getElementById('rsvpForm');
 
-// Replace with your Google Apps Script Web App URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby986VP6otheenpZpH9h5ZJ0os7bIFaCZlI_T9JcHXDGuh7zS_ETj1c4K6eq3tV0VwCOg/exec";
+// Replace with your NEW Google Apps Script Web App URL after redeployment
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCqXnPJuGthsZdvgsdGSZgrVykQbcMlGpe7Zluo8NUTB5IsH0H4HbsXrmuFicLvooGZA/exec";
 
 form.addEventListener('submit', function(e) {
   e.preventDefault();
@@ -15,43 +15,81 @@ form.addEventListener('submit', function(e) {
   submitBtn.textContent = 'Submitting...';
   submitBtn.disabled = true;
 
-  // Try JSONP approach for better compatibility
-  const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
-  
-  // Create callback function
-  window[callbackName] = function(response) {
-    console.log("Success:", response);
+  console.log('Submitting data:', { name, attendance, guests });
+
+  // Try the simplest possible approach - redirect method
+  const params = new URLSearchParams({
+    name: name,
+    attendance: attendance,
+    guests: guests
+  });
+
+  // Method 1: Try with a hidden iframe (most reliable for Google Apps Script)
+  const iframe = document.createElement('iframe');
+  iframe.style.display = 'none';
+  iframe.name = 'rsvp_frame';
+  document.body.appendChild(iframe);
+
+  // Create a form that submits to the iframe
+  const hiddenForm = document.createElement('form');
+  hiddenForm.method = 'POST';
+  hiddenForm.action = SCRIPT_URL;
+  hiddenForm.target = 'rsvp_frame';
+
+  // Add form fields
+  Object.keys({ name, attendance, guests }).forEach(key => {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = key;
+    input.value = eval(key); // name, attendance, guests variables
+    hiddenForm.appendChild(input);
+  });
+
+  document.body.appendChild(hiddenForm);
+
+  // Handle iframe load (success/error)
+  let submitted = false;
+  iframe.onload = function() {
+    if (!submitted) return; // Ignore initial load
+    
+    console.log('Form submitted successfully');
     alert("Thank you for your RSVP!");
     form.reset();
     
     // Cleanup
-    document.head.removeChild(script);
-    delete window[callbackName];
+    document.body.removeChild(iframe);
+    document.body.removeChild(hiddenForm);
     
     // Reset button state
     submitBtn.textContent = originalText;
     submitBtn.disabled = false;
   };
 
-  // Create script element for JSONP
-  const script = document.createElement('script');
-  script.src = `${SCRIPT_URL}?callback=${callbackName}&name=${encodeURIComponent(name)}&attendance=${encodeURIComponent(attendance)}&guests=${encodeURIComponent(guests)}`;
-  
-  // Handle errors
-  script.onerror = function() {
-    alert("Error submitting RSVP, please try again.");
-    document.head.removeChild(script);
-    delete window[callbackName];
-    submitBtn.textContent = originalText;
-    submitBtn.disabled = false;
-  };
+  // Submit the hidden form
+  setTimeout(() => {
+    submitted = true;
+    hiddenForm.submit();
+  }, 100);
 
-  document.head.appendChild(script);
+  // Fallback timeout
+  setTimeout(() => {
+    if (submitted) {
+      console.log('Fallback timeout - assuming success');
+      alert("RSVP submitted! Please check if it appears in the spreadsheet.");
+      form.reset();
+      
+      // Cleanup
+      if (document.body.contains(iframe)) document.body.removeChild(iframe);
+      if (document.body.contains(hiddenForm)) document.body.removeChild(hiddenForm);
+      
+      // Reset button state
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    }
+  }, 5000);
 });
 
 // Download function for Excel export
 function downloadExcel() {
-  // This would require additional setup to read from Google Sheets
-  // For now, just show a message
   alert("Excel download feature needs additional setup. Check your Google Sheet directly for now.");
 }

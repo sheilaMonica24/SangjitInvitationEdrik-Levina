@@ -1,7 +1,7 @@
 const form = document.getElementById('rsvpForm');
 
 // Replace with your Google Apps Script Web App URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyECseoUAeWOAKCXHN50WfNDPG4Hi7IUnmPBcfbbkqi/dev";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby986VP6otheenpZpH9h5ZJ0os7bIFaCZlI_T9JcHXDGuh7zS_ETj1c4K6eq3tV0VwCOg/exec";
 
 form.addEventListener('submit', function(e) {
   e.preventDefault();
@@ -17,12 +17,14 @@ form.addEventListener('submit', function(e) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
-  .then(() => {
+  .then(res => res.json())
+  .then(response => {
+    console.log("Sucess:", response);
     alert("Thank you for your RSVP!");
     form.reset();
   })
   .catch(err => {
+    console.error("Error:", err);
     alert("Error submitting RSVP, please try again.");
-    console.error(err);
   });
 });

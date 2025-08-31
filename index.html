@@ -40,6 +40,32 @@
       background: #f9f6ef;
       position: relative;
     }
+    /* .header-section {
+      text-align: center;
+      padding: 60px 40px 50px;
+      background: #f9f6ef;
+      background-image: url('dragon2.png');
+      background-size: 400px;
+      background-repeat: no-repeat;
+      background-position: -100px -50px;
+      position: relative;
+    }
+
+    .header-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(249, 246, 239, 0.9);
+      z-index: 1;
+    }
+
+    .header-section > * {
+      position: relative;
+      z-index: 2;
+    } */
 
     .double-happiness {
       width: 120px;
@@ -189,7 +215,7 @@
     }
 
     /* Right Column - RSVP */
-    .right-column {
+    /* .right-column {
       flex: 1;
       background: #f9f6ef;
       color: #2c3e5a;
@@ -197,6 +223,35 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+    } */
+    .right-column {
+      flex: 1;
+      background: #f9f6ef;
+      background-image: url('merak.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      color: #2c3e5a;
+      padding: 60px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+    .right-column::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(249, 246, 239, 0.9);
+      z-index: 1;
+    }
+
+    .right-column > * {
+      position: relative;
+      z-index: 2;
     }
 
     .rsvp-section h2 {
@@ -555,10 +610,7 @@
 
         <div class="event-details">
           <h3>Event</h3> 
-          <div class="detail-item">📍 Angke Heritage PIK 2
-            <a href="https://maps.app.goo.gl/6CixEJv7gNN99wFL6" target="_blank">
-              <em>(View Map)</em>
-            </a>
+          <div class="detail-item">📍 Angke Heritage PIK 2 <a href="https://maps.app.goo.gl/6CixEJv7gNN99wFL6" target="_blank"><em>(View Map)</em></a>
           </div>
 
           <h3>Time</h3>
@@ -567,7 +619,7 @@
           
           <div class="dress-code">
             <h3>Dress Code</h3>
-            <div class="detail-item color-red">👗 Red</div>
+            <div class="detail-item color-red"> 👗 Red</div>
           </div>
 
           <div class="line"></div>
@@ -603,7 +655,7 @@
                   <option value="">How many will attend?</option>
                   <option value="1">👩 Just me (1 person)</option>
                   <option value="2">👩👨 My partner and I (2 people)</option>
-                  <option value="3">👨‍👩‍👦 Three people</option>
+                  <option value="3">👨‍👩‍👦Three people</option>
                 </select>
               </div>
               <div class="loading-indicator" id="guestsLoading">● Processing...</div>
@@ -614,7 +666,7 @@
             </button>
 
             <div class="success-message" id="successMessage">
-              🎉 Thank you! Your RSVP has been received.
+              Thank you! Your RSVP has been received.
             </div>
           </form>
         </div>

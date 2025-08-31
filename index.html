@@ -17,9 +17,9 @@
       font-family: 'Playfair Display', serif;
       background: linear-gradient(135deg, #2c3e5a 0%, #1a2b44 100%);
       color: #f9f6ef;
-      line-height: 1.6;
       min-height: 100vh;
-      overflow-x: auto;
+      overflow-x: hidden;
+      padding: 0;
     }
 
     .invitation-card {
@@ -45,21 +45,16 @@
       width: 120px;
       height: 120px;
       margin: 0 auto 30px;
-      background: #c9a876;
+      background:#f9f6ef;
       border-radius: 50%;
       position: relative;
-      /* Placeholder for the double happiness symbol */
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 60px;
       font-weight: bold;
       color: #f9f6ef;
-    }
-
-    .double-happiness::before {
-      content: "囍";
-      font-family: serif;
+      box-shadow: 0 8px 16px rgba(201, 168, 118, 0.3);
     }
 
     .couple-names {
@@ -67,16 +62,16 @@
     }
 
     .couple-names h1 {
-      font-size: 4rem;
+      font-size: clamp(2.5rem, 6vw, 4rem);
       font-weight: 300;
-      letter-spacing: 8px;
+      letter-spacing: clamp(4px, 1vw, 8px);
       margin-bottom: 20px;
       color: #2c3e5a;
       line-height: 1.1;
     }
 
     .couple-names .ampersand {
-      font-size: 2.5rem;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
       font-style: italic;
       color: #c9a876;
       margin: 0 15px;
@@ -85,12 +80,12 @@
     .invitation-text {
       font-family: 'Crimson Text', serif;
       font-style: italic;
-      font-size: 1.2rem;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
       color: #666;
       border-top: 2px solid #c9a876;
       border-bottom: 2px solid #c9a876;
       padding: 20px 0;
-      margin: 0 60px;
+      margin: 0 clamp(20px, 5vw, 60px);
     }
 
     /* Main Content - Two Column Layout */
@@ -108,26 +103,42 @@
       position: relative;
     }
 
+    /* .floral-decoration {
+      width: 100%;
+      height: 100px;
+      background: linear-gradient(45deg, #c9a876, #d4b89a);
+      margin-bottom: 30px;
+      border-radius: 10px;
+      opacity: 0.8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #2c3e5a;
+    } */
     .floral-decoration {
-      width: 80px;
-      height: 40px;
-      background: #c9a876;
+      width: 100%;
+      height: 100px;
+      background: #2c3e5a;  /*c9a876;*/
       margin-bottom: 30px;
       /* Placeholder for floral decoration */
-      border-radius: 20px;
-      opacity: 0.8;
+      /* border-radius: 10ch; */
+      /* opacity: ; */
     }
 
     .rsvp-deadline {
-      font-size: 2.2rem;
+      font-size: clamp(1.8rem, 4vw, 2.2rem);
       font-weight: 600;
       line-height: 1.2;
       margin-bottom: 50px;
+      text-align: center;
     }
 
     .rsvp-deadline .highlight {
       color: #c9a876;
-      font-size: 2.8rem;
+      font-size: clamp(2.2rem, 5vw, 2.8rem);
+      display: block;
+      margin-top: 10px;
     }
 
     .event-details {
@@ -137,7 +148,7 @@
     .event-details h3 {
       font-family: 'Crimson Text', serif;
       font-style: italic;
-      font-size: 1.8rem;
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
       color: #c9a876;
       margin-bottom: 15px;
       font-weight: 400;
@@ -145,11 +156,19 @@
 
     .detail-item {
       margin-bottom: 15px;
-      font-size: 1.1rem;
+      font-size: clamp(1rem, 2.5vw, 1.1rem);
+      line-height: 1.4;
     }
 
     .detail-item strong {
       color: #c9a876;
+    }
+
+    .detail-item a {
+      color: #c9a876;
+      text-decoration: underline;
+      font-size: 0.9rem;
+      margin-left: 5px;
     }
 
     .dress-code h3 {
@@ -159,7 +178,14 @@
     .dress-code .color-red {
       color: #e63946;
       font-weight: 600;
-      font-size: 1.3rem;
+      font-size: clamp(1.1rem, 2.8vw, 1.3rem);
+    }
+
+    .line {
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #c9a876, transparent);
+      margin-top: 30px;
     }
 
     /* Right Column - RSVP */
@@ -174,10 +200,11 @@
     }
 
     .rsvp-section h2 {
-      font-size: 1.8rem;
+      font-size: clamp(1.5rem, 3.5vw, 1.8rem);
       font-weight: 600;
       margin-bottom: 30px;
       color: #2c3e5a;
+      text-align: center;
     }
 
     .rsvp-question {
@@ -185,50 +212,67 @@
     }
 
     .rsvp-question h3 {
-      font-size: 1.3rem;
+      font-size: clamp(1.1rem, 2.8vw, 1.3rem);
       margin-bottom: 15px;
       color: #2c3e5a;
+      font-weight: 500;
+    }
+
+    /* Enhanced Custom Select */
+    .custom-select {
+      position: relative;
+      margin-bottom: 20px;
     }
 
     .styled-select {
       width: 100%;
-      padding: 15px 20px;
+      padding: 18px 20px;
       border: 2px solid #c9a876;
-      border-radius: 25px;
+      border-radius: 12px;
       background: #f9f6ef;
       color: #2c3e5a;
       font-family: inherit;
-      font-size: 1rem;
-      margin-bottom: 20px;
+      font-size: clamp(0.95rem, 2.2vw, 1rem);
       cursor: pointer;
       appearance: none;
       background-image: url('data:image/svg+xml;utf8,<svg fill="%23c9a876" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
       background-repeat: no-repeat;
       background-position: right 15px center;
       background-size: 20px;
+      transition: all 0.3s ease;
     }
 
     .styled-select:focus {
       outline: none;
       background-color: rgba(201, 168, 118, 0.1);
+      border-color: #b8975f;
+      box-shadow: 0 0 0 3px rgba(201, 168, 118, 0.2);
+    }
+
+    .styled-select:hover {
+      border-color: #b8975f;
+      background-color: rgba(201, 168, 118, 0.05);
     }
 
     .styled-select option {
-      padding: 10px;
+      padding: 15px;
       background: #f9f6ef;
       color: #2c3e5a;
+      font-size: 1rem;
     }
 
+    /* Enhanced Name Input */
     .name-input {
       width: 100%;
-      padding: 15px 20px;
+      padding: 18px 20px;
       border: 2px solid #c9a876;
-      border-radius: 25px;
+      border-radius: 12px;
       background: transparent;
       color: #2c3e5a;
       font-family: inherit;
-      font-size: 1rem;
+      font-size: clamp(0.95rem, 2.2vw, 1rem);
       margin-bottom: 20px;
+      transition: all 0.3s ease;
     }
 
     .name-input::placeholder {
@@ -239,37 +283,70 @@
     .name-input:focus {
       outline: none;
       background: rgba(201, 168, 118, 0.1);
+      border-color: #b8975f;
+      box-shadow: 0 0 0 3px rgba(201, 168, 118, 0.2);
     }
 
+    .name-input:hover {
+      border-color: #b8975f;
+      background-color: rgba(201, 168, 118, 0.05);
+    }
+
+    /* Loading Indicator */
     .loading-indicator {
       display: none;
       text-align: center;
       color: #c9a876;
       font-style: italic;
       margin: 10px 0;
+      font-size: 0.9rem;
     }
 
     .loading-indicator.show {
       display: block;
     }
 
+    /* Enhanced Submit Button */
     .submit-btn {
-      background: #2c3e5a;
+      background: linear-gradient(135deg, #2c3e5a, #1a2b44);
       color: #f9f6ef;
       border: none;
-      padding: 15px 30px;
-      border-radius: 25px;
+      padding: 18px 30px;
+      border-radius: 12px;
       font-family: inherit;
-      font-size: 1.1rem;
+      font-size: clamp(1rem, 2.5vw, 1.1rem);
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
       margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(44, 62, 90, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .submit-btn:hover::before {
+      left: 100%;
     }
 
     .submit-btn:hover {
-      background: #1a2b44;
+      background: linear-gradient(135deg, #1a2b44, #0f1a2e);
       transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(44, 62, 90, 0.4);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
     }
 
     .submit-btn:disabled {
@@ -278,25 +355,60 @@
       transform: none;
     }
 
-    /* Mobile Responsiveness */
+    /* Success Message */
+    .success-message {
+      display: none;
+      background: linear-gradient(135deg, #c9a876, #d4b89a);
+      color: #2c3e5a;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 600;
+      margin-top: 20px;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Improved Mobile Responsiveness */
     @media (max-width: 768px) {
+      body {
+        padding: 0;
+      }
+
       .invitation-card {
-        margin: 10px;
+        margin: 0;
         border-radius: 0;
+        min-height: 100vh;
       }
 
       .header-section {
         padding: 40px 20px 30px;
       }
 
-      .couple-names h1 {
-        font-size: 2.5rem;
-        letter-spacing: 4px;
+      .double-happiness {
+        width: 100px;
+        height: 100px;
+        font-size: 50px;
+        margin-bottom: 25px;
       }
 
       .invitation-text {
         margin: 0 20px;
-        font-size: 1rem;
+        padding: 15px 0;
       }
 
       .main-content {
@@ -304,23 +416,77 @@
       }
 
       .left-column, .right-column {
-        padding: 40px 30px;
+        padding: 40px 25px;
+      }
+
+      .left-column {
+        order: 2;
+      }
+
+      .right-column {
+        order: 1;
+        background: linear-gradient(135deg, #f9f6ef 0%, #f5f2eb 100%);
+      }
+
+      .floral-decoration {
+        height: 80px;
+        margin-bottom: 25px;
+        font-size: 1.5rem;
       }
 
       .rsvp-deadline {
-        font-size: 1.8rem;
+        margin-bottom: 30px;
+        text-align: center;
       }
 
-      .rsvp-deadline .highlight {
-        font-size: 2.2rem;
+      .styled-select, .name-input {
+        padding: 16px 18px;
+        font-size: 16px; /* Prevents zoom on iOS */
       }
 
-      .option-buttons {
-        flex-direction: column;
+      .submit-btn {
+        padding: 16px 30px;
+        width: 100%;
+      }
+    }
+
+    /* Extra small screens */
+    @media (max-width: 480px) {
+      .header-section {
+        padding: 30px 15px 25px;
       }
 
-      .styled-select {
-        font-size: 0.95rem;
+      .left-column, .right-column {
+        padding: 30px 20px;
+      }
+
+      .rsvp-question {
+        margin-bottom: 20px;
+      }
+
+      .detail-item a {
+        display: block;
+        margin-top: 5px;
+        margin-left: 0;
+      }
+    }
+
+    /* Tablet Landscape */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .invitation-card {
+        margin: 15px;
+        max-width: 95%;
+      }
+
+      .left-column, .right-column {
+        padding: 50px 40px;
+      }
+    }
+
+    /* Large screens */
+    @media (min-width: 1200px) {
+      .invitation-card {
+        max-width: 1100px;
       }
     }
 
@@ -339,23 +505,39 @@
     .invitation-card {
       animation: fadeIn 1.2s ease-out;
     }
+
+    /* Focus indicators for accessibility */
+    .styled-select:focus-visible,
+    .name-input:focus-visible,
+    .submit-btn:focus-visible {
+      outline: 3px solid #c9a876;
+      outline-offset: 2px;
+    }
+
+    /* Improved visual hierarchy */
+    .event-details > div + h3 {
+      margin-top: 25px;
+    }
+
+    /* Better spacing for form elements */
+    .rsvp-question:last-of-type {
+      margin-bottom: 30px;
+    }
   </style>
 </head>
 <body>
   <div class="invitation-card">
     <!-- Header Section -->
     <div class="header-section">
-      <div class="double-happiness">
-        <!-- Replace this div with your double happiness symbol image -->
-      </div>
-      
+      <!-- <div class="double-happiness">囍</div> -->
+      <img src="double-happiness.png" alt="Double Happiness" class="double-happiness">
       <div class="couple-names">
         <h1>EDRIK<span class="ampersand">&</span>LEVINA</h1>
       </div>
       
       <div class="invitation-text">
         Invite you to share in the joy of their<br>
-        <em>sangjit</em> on December 29, 2025
+        <em>Sangjit</em> on December 29, 2025
       </div>
     </div>
 
@@ -363,10 +545,8 @@
     <div class="main-content">
       <!-- Left Column -->
       <div class="left-column">
-        <!-- <div class="floral-decoration"> -->
         <img src="floral-decoration.png" alt="Floral decoration" class="floral-decoration">
-          <!-- Replace this div with your floral decoration image -->
-        <!-- </div> -->
+
         
         <div class="rsvp-deadline">
           PLEASE RSVP BY<br>
@@ -374,52 +554,128 @@
         </div>
 
         <div class="event-details">
-          <h3>Event</h3>
-          <div class="detail-item">Angke Heritage PIK 2</div>
-          
+          <h3>Event</h3> 
+          <div class="detail-item">📍 Angke Heritage PIK 2
+            <a href="https://maps.app.goo.gl/6CixEJv7gNN99wFL6" target="_blank">
+              <em>(View Map)</em>
+            </a>
+          </div>
+
           <h3>Time</h3>
-          <div class="detail-item">29 December 2025</div>
-          <div class="detail-item">10.30 - 14.00</div>
+          <div class="detail-item">📅 29 December 2025</div>
+          <div class="detail-item">⏰ 10.30 - 14.00 WIB</div>
           
           <div class="dress-code">
             <h3>Dress Code</h3>
-            <div class="detail-item color-red">Red</div>
+            <div class="detail-item color-red">👗 Red</div>
           </div>
+
+          <div class="line"></div>
         </div>
       </div>
 
       <!-- Right Column -->
       <div class="right-column">
-        <form id="rsvpForm">
-          <input type="text" id="name" class="name-input" placeholder="Your Name" required>
-          
-          <div class="rsvp-question">
-            <h3>RSVP: Can you attend?</h3>
-            <select id="attendance" class="styled-select" required>
-              <option value="">-- Can you attend? --</option>
-              <option value="Yes">Yes, I'll be there</option>
-              <option value="No">Sorry, can't make it</option>
-            </select>
-            <div class="loading-indicator" id="attendanceLoading">● Loading...</div>
-          </div>
+        <div class="rsvp-section">
+          <h2>RSVP</h2>
+          <form id="rsvpForm">
+            <div class="rsvp-question">
+              <h3>Your Name</h3>
+              <input type="text" id="name" class="name-input" placeholder="Enter your full name" required>
+            </div>
 
-          <div class="rsvp-question">
-            <h3>RSVP: How many of you?</h3>
-            <select id="guests" class="styled-select" required>
-              <option value="">-- How many of you? --</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="2+children">2 with 1 children</option>
-            </select>
-            <div class="loading-indicator" id="guestsLoading">● Loading...</div>
-          </div>
+            <div class="rsvp-question">
+              <h3>Can you attend?</h3>
+              <div class="custom-select">
+                <select id="attendance" class="styled-select" required>
+                  <option value="">Select your response</option>
+                  <option value="Yes">✅ Yes, I'll be there!</option>
+                  <option value="No">❌ Sorry, can't make it</option>
+                </select>
+              </div>
+              <div class="loading-indicator" id="attendanceLoading">● Processing...</div>
+            </div>
 
-          <button type="submit" class="submit-btn">Submit RSVP</button>
-        </form>
+            <div class="rsvp-question">
+              <h3>Number of guests</h3>
+              <div class="custom-select">
+                <select id="guests" class="styled-select" required>
+                  <option value="">How many will attend?</option>
+                  <option value="1">👩 Just me (1 person)</option>
+                  <option value="2">👩👨 My partner and I (2 people)</option>
+                  <option value="3">👨‍👩‍👦 Three people</option>
+                </select>
+              </div>
+              <div class="loading-indicator" id="guestsLoading">● Processing...</div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+              <span>Submit RSVP</span>
+            </button>
+
+            <div class="success-message" id="successMessage">
+              🎉 Thank you! Your RSVP has been received.
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('rsvpForm');
+      const submitBtn = form.querySelector('.submit-btn');
+      const successMessage = document.getElementById('successMessage');
+      
+      // Form submission handler
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('name').value.trim();
+        const attendance = document.getElementById('attendance').value;
+        const guests = document.getElementById('guests').value;
+        
+        if (!name || !attendance || !guests) {
+          alert('Please fill in all fields');
+          return;
+        }
+        
+        // Disable button and show loading
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Submitting...</span>';
+        
+        // Simulate form submission
+        setTimeout(() => {
+          // Show success message
+          successMessage.classList.add('show');
+          
+          // Reset form
+          form.reset();
+          
+          // Reset button
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>Submit RSVP</span>';
+          
+          // Hide success message after 5 seconds
+          setTimeout(() => {
+            successMessage.classList.remove('show');
+          }, 5000);
+        }, 1500);
+      });
+
+      // Add subtle animations to form elements
+      const formElements = document.querySelectorAll('.styled-select, .name-input');
+      formElements.forEach(element => {
+        element.addEventListener('focus', function() {
+          this.style.transform = 'scale(1.02)';
+        });
+        
+        element.addEventListener('blur', function() {
+          this.style.transform = 'scale(1)';
+        });
+      });
+    });
+  </script>
 </body>
 </html>

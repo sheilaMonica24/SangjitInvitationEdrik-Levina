@@ -190,30 +190,33 @@
       color: #2c3e5a;
     }
 
-    .option-buttons {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    .option-button {
-      flex: 1;
-      min-width: 120px;
-      padding: 12px 20px;
+    .styled-select {
+      width: 100%;
+      padding: 15px 20px;
       border: 2px solid #c9a876;
-      background: transparent;
-      color: #2c3e5a;
       border-radius: 25px;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      background: #f9f6ef;
+      color: #2c3e5a;
       font-family: inherit;
-      font-size: 0.95rem;
-      text-align: center;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      cursor: pointer;
+      appearance: none;
+      background-image: url('data:image/svg+xml;utf8,<svg fill="%23c9a876" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 20px;
     }
 
-    .option-button:hover, .option-button.selected {
-      background: #c9a876;
-      color: #f9f6ef;
+    .styled-select:focus {
+      outline: none;
+      background-color: rgba(201, 168, 118, 0.1);
+    }
+
+    .styled-select option {
+      padding: 10px;
+      background: #f9f6ef;
+      color: #2c3e5a;
     }
 
     .name-input {
@@ -316,8 +319,8 @@
         flex-direction: column;
       }
 
-      .option-button {
-        min-width: auto;
+      .styled-select {
+        font-size: 0.95rem;
       }
     }
 
@@ -391,20 +394,22 @@
           
           <div class="rsvp-question">
             <h3>RSVP: Can you attend?</h3>
-            <div class="option-buttons">
-              <button type="button" class="option-button" data-value="Yes">Yes, I'll be there</button>
-              <button type="button" class="option-button" data-value="No">Sorry, can't make it</button>
-            </div>
+            <select id="attendance" class="styled-select" required>
+              <option value="">-- Can you attend? --</option>
+              <option value="Yes">Yes, I'll be there</option>
+              <option value="No">Sorry, can't make it</option>
+            </select>
             <div class="loading-indicator" id="attendanceLoading">● Loading...</div>
           </div>
 
           <div class="rsvp-question">
             <h3>RSVP: How many of you?</h3>
-            <div class="option-buttons">
-              <button type="button" class="option-button" data-value="1">1</button>
-              <button type="button" class="option-button" data-value="2">2</button>
-              <button type="button" class="option-button" data-value="2+children">2 with 1 children</button>
-            </div>
+            <select id="guests" class="styled-select" required>
+              <option value="">-- How many of you? --</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="2+children">2 with 1 children</option>
+            </select>
             <div class="loading-indicator" id="guestsLoading">● Loading...</div>
           </div>
 
@@ -414,111 +419,6 @@
     </div>
   </div>
 
-  <script>
-    const form = document.getElementById('rsvpForm');
-    const SCRIPT_URL = "https://script.google.com/macros/s/YOUR_NEW_DEPLOYMENT_URL/exec";
-
-    let selectedAttendance = '';
-    let selectedGuests = '';
-
-    // Handle option button clicks
-    document.addEventListener('click', function(e) {
-      if (e.target.classList.contains('option-button')) {
-        const question = e.target.closest('.rsvp-question');
-        const buttons = question.querySelectorAll('.option-button');
-        
-        // Remove selected class from all buttons in this group
-        buttons.forEach(btn => btn.classList.remove('selected'));
-        
-        // Add selected class to clicked button
-        e.target.classList.add('selected');
-        
-        // Store the selected value
-        if (question.querySelector('h3').textContent.includes('attend')) {
-          selectedAttendance = e.target.dataset.value;
-        } else {
-          selectedGuests = e.target.dataset.value;
-        }
-      }
-    });
-
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const name = document.getElementById('name').value.trim();
-      
-      if (!name || !selectedAttendance || !selectedGuests) {
-        alert('Please fill in all fields and make your selections.');
-        return;
-      }
-
-      const submitBtn = form.querySelector('.submit-btn');
-      const originalText = submitBtn.textContent;
-      submitBtn.textContent = 'Submitting...';
-      submitBtn.disabled = true;
-
-      // Create hidden iframe form submission
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.name = 'rsvp_frame';
-      document.body.appendChild(iframe);
-
-      const hiddenForm = document.createElement('form');
-      hiddenForm.method = 'POST';
-      hiddenForm.action = SCRIPT_URL;
-      hiddenForm.target = 'rsvp_frame';
-
-      // Add form fields
-      ['name', 'attendance', 'guests'].forEach((field, index) => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = field;
-        input.value = [name, selectedAttendance, selectedGuests][index];
-        hiddenForm.appendChild(input);
-      });
-
-      document.body.appendChild(hiddenForm);
-
-      let submitted = false;
-      iframe.onload = function() {
-        if (!submitted) return;
-        
-        alert("Thank you for your RSVP! We look forward to celebrating with you.");
-        form.reset();
-        selectedAttendance = '';
-        selectedGuests = '';
-        document.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('selected'));
-        
-        // Cleanup
-        document.body.removeChild(iframe);
-        document.body.removeChild(hiddenForm);
-        
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-      };
-
-      setTimeout(() => {
-        submitted = true;
-        hiddenForm.submit();
-      }, 100);
-
-      // Fallback timeout
-      setTimeout(() => {
-        if (submitted) {
-          alert("RSVP submitted! Thank you.");
-          form.reset();
-          selectedAttendance = '';
-          selectedGuests = '';
-          document.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('selected'));
-          
-          if (document.body.contains(iframe)) document.body.removeChild(iframe);
-          if (document.body.contains(hiddenForm)) document.body.removeChild(hiddenForm);
-          
-          submitBtn.textContent = originalText;
-          submitBtn.disabled = false;
-        }
-      }, 5000);
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

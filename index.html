@@ -4,46 +4,521 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sangjit Invitation - Edrik & Levina</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Playfair Display', serif;
+      background: linear-gradient(135deg, #2c3e5a 0%, #1a2b44 100%);
+      color: #f9f6ef;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: auto;
+    }
+
+    .invitation-card {
+      max-width: 1000px;
+      margin: 20px auto;
+      background: #f9f6ef;
+      color: #2c3e5a;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      border-radius: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Top Section - Names and Symbol */
+    .header-section {
+      text-align: center;
+      padding: 60px 40px 50px;
+      background: #f9f6ef;
+      position: relative;
+    }
+
+    .double-happiness {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 30px;
+      background: #c9a876;
+      border-radius: 50%;
+      position: relative;
+      /* Placeholder for the double happiness symbol */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      font-weight: bold;
+      color: #f9f6ef;
+    }
+
+    .double-happiness::before {
+      content: "囍";
+      font-family: serif;
+    }
+
+    .couple-names {
+      margin-bottom: 40px;
+    }
+
+    .couple-names h1 {
+      font-size: 4rem;
+      font-weight: 300;
+      letter-spacing: 8px;
+      margin-bottom: 20px;
+      color: #2c3e5a;
+      line-height: 1.1;
+    }
+
+    .couple-names .ampersand {
+      font-size: 2.5rem;
+      font-style: italic;
+      color: #c9a876;
+      margin: 0 15px;
+    }
+
+    .invitation-text {
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: #666;
+      border-top: 2px solid #c9a876;
+      border-bottom: 2px solid #c9a876;
+      padding: 20px 0;
+      margin: 0 60px;
+    }
+
+    /* Main Content - Two Column Layout */
+    .main-content {
+      display: flex;
+      min-height: 500px;
+    }
+
+    /* Left Column - Event Details */
+    .left-column {
+      flex: 1;
+      background: #2c3e5a;
+      color: #f9f6ef;
+      padding: 60px 50px;
+      position: relative;
+    }
+
+    .floral-decoration {
+      width: 80px;
+      height: 40px;
+      background: #c9a876;
+      margin-bottom: 30px;
+      /* Placeholder for floral decoration */
+      border-radius: 20px;
+      opacity: 0.8;
+    }
+
+    .rsvp-deadline {
+      font-size: 2.2rem;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 50px;
+    }
+
+    .rsvp-deadline .highlight {
+      color: #c9a876;
+      font-size: 2.8rem;
+    }
+
+    .event-details {
+      margin-bottom: 40px;
+    }
+
+    .event-details h3 {
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: 1.8rem;
+      color: #c9a876;
+      margin-bottom: 15px;
+      font-weight: 400;
+    }
+
+    .detail-item {
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+
+    .detail-item strong {
+      color: #c9a876;
+    }
+
+    .dress-code h3 {
+      margin-top: 30px;
+    }
+
+    .dress-code .color-red {
+      color: #e63946;
+      font-weight: 600;
+      font-size: 1.3rem;
+    }
+
+    /* Right Column - RSVP */
+    .right-column {
+      flex: 1;
+      background: #f9f6ef;
+      color: #2c3e5a;
+      padding: 60px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .rsvp-section h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 30px;
+      color: #2c3e5a;
+    }
+
+    .rsvp-question {
+      margin-bottom: 25px;
+    }
+
+    .rsvp-question h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: #2c3e5a;
+    }
+
+    .option-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .option-button {
+      flex: 1;
+      min-width: 120px;
+      padding: 12px 20px;
+      border: 2px solid #c9a876;
+      background: transparent;
+      color: #2c3e5a;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    .option-button:hover, .option-button.selected {
+      background: #c9a876;
+      color: #f9f6ef;
+    }
+
+    .name-input {
+      width: 100%;
+      padding: 15px 20px;
+      border: 2px solid #c9a876;
+      border-radius: 25px;
+      background: transparent;
+      color: #2c3e5a;
+      font-family: inherit;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    .name-input::placeholder {
+      color: #888;
+      font-style: italic;
+    }
+
+    .name-input:focus {
+      outline: none;
+      background: rgba(201, 168, 118, 0.1);
+    }
+
+    .loading-indicator {
+      display: none;
+      text-align: center;
+      color: #c9a876;
+      font-style: italic;
+      margin: 10px 0;
+    }
+
+    .loading-indicator.show {
+      display: block;
+    }
+
+    .submit-btn {
+      background: #2c3e5a;
+      color: #f9f6ef;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 25px;
+      font-family: inherit;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+    }
+
+    .submit-btn:hover {
+      background: #1a2b44;
+      transform: translateY(-2px);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .invitation-card {
+        margin: 10px;
+        border-radius: 0;
+      }
+
+      .header-section {
+        padding: 40px 20px 30px;
+      }
+
+      .couple-names h1 {
+        font-size: 2.5rem;
+        letter-spacing: 4px;
+      }
+
+      .invitation-text {
+        margin: 0 20px;
+        font-size: 1rem;
+      }
+
+      .main-content {
+        flex-direction: column;
+      }
+
+      .left-column, .right-column {
+        padding: 40px 30px;
+      }
+
+      .rsvp-deadline {
+        font-size: 1.8rem;
+      }
+
+      .rsvp-deadline .highlight {
+        font-size: 2.2rem;
+      }
+
+      .option-buttons {
+        flex-direction: column;
+      }
+
+      .option-button {
+        min-width: auto;
+      }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .invitation-card {
+      animation: fadeIn 1.2s ease-out;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Edrik & Levina</h1>
-      <p>Invite you to share in the joy of their sangjit on December 29, 2025</p>
-    </header>
+  <div class="invitation-card">
+    <!-- Header Section -->
+    <div class="header-section">
+      <div class="double-happiness">
+        <!-- Replace this div with your double happiness symbol image -->
+      </div>
+      
+      <div class="couple-names">
+        <h1>EDRIK<span class="ampersand">&</span>LEVINA</h1>
+      </div>
+      
+      <div class="invitation-text">
+        Invite you to share in the joy of their<br>
+        <em>sangjit</em> on December 29, 2025
+      </div>
+    </div>
 
-    <section>
-      <h2>Event Details</h2>
-      <p><strong>Venue:</strong> Angke Heritage PIK 2</p>
-      <p><strong>Date:</strong> 29 December 2025</p>
-      <p><strong>Time:</strong> 10:30 - 14:00</p>
-      <p><strong>Dress Code:</strong> Red</p>
-      <p><em>Please RSVP by November 2, 2025</em></p>
-    </section>
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Left Column -->
+      <div class="left-column">
+        <div class="floral-decoration">
+          <!-- Replace this div with your floral decoration image -->
+        </div>
+        
+        <div class="rsvp-deadline">
+          PLEASE RSVP BY<br>
+          <span class="highlight">NOV 2, 2025</span>
+        </div>
 
-    <section>
-      <h2>RSVP</h2>
-      <form id="rsvpForm">
-        <input type="text" id="name" placeholder="Your Name" required>
-        <select id="attendance" required>
-          <option value="">-- Can you attend? --</option>
-          <option value="Yes">Yes, I’ll be there</option>
-          <option value="No">Sorry, can’t make it</option>
-        </select>
-        <select id="guests" required>
-          <option value="">-- How many of you? --</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="2+children">2 with 1 children</option>
-        </select>
-        <button type="submit">Submit RSVP</button>
-      </form>
-      <button class="download-btn" onclick="downloadExcel()">Download RSVPs (Excel)</button>
-    </section>
+        <div class="event-details">
+          <h3>Event</h3>
+          <div class="detail-item">Angke Heritage PIK 2</div>
+          
+          <h3>Time</h3>
+          <div class="detail-item">29 December 2025</div>
+          <div class="detail-item">10.30 - 14.00</div>
+          
+          <div class="dress-code">
+            <h3>Dress Code</h3>
+            <div class="detail-item color-red">Red</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="right-column">
+        <form id="rsvpForm">
+          <input type="text" id="name" class="name-input" placeholder="Your Name" required>
+          
+          <div class="rsvp-question">
+            <h3>RSVP: Can you attend?</h3>
+            <div class="option-buttons">
+              <button type="button" class="option-button" data-value="Yes">Yes, I'll be there</button>
+              <button type="button" class="option-button" data-value="No">Sorry, can't make it</button>
+            </div>
+            <div class="loading-indicator" id="attendanceLoading">● Loading...</div>
+          </div>
+
+          <div class="rsvp-question">
+            <h3>RSVP: How many of you?</h3>
+            <div class="option-buttons">
+              <button type="button" class="option-button" data-value="1">1</button>
+              <button type="button" class="option-button" data-value="2">2</button>
+              <button type="button" class="option-button" data-value="2+children">2 with 1 children</button>
+            </div>
+            <div class="loading-indicator" id="guestsLoading">● Loading...</div>
+          </div>
+
+          <button type="submit" class="submit-btn">Submit RSVP</button>
+        </form>
+      </div>
+    </div>
   </div>
-  <script src="script.js"></script>
+
+  <script>
+    const form = document.getElementById('rsvpForm');
+    const SCRIPT_URL = "https://script.google.com/macros/s/YOUR_NEW_DEPLOYMENT_URL/exec";
+
+    let selectedAttendance = '';
+    let selectedGuests = '';
+
+    // Handle option button clicks
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('option-button')) {
+        const question = e.target.closest('.rsvp-question');
+        const buttons = question.querySelectorAll('.option-button');
+        
+        // Remove selected class from all buttons in this group
+        buttons.forEach(btn => btn.classList.remove('selected'));
+        
+        // Add selected class to clicked button
+        e.target.classList.add('selected');
+        
+        // Store the selected value
+        if (question.querySelector('h3').textContent.includes('attend')) {
+          selectedAttendance = e.target.dataset.value;
+        } else {
+          selectedGuests = e.target.dataset.value;
+        }
+      }
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('name').value.trim();
+      
+      if (!name || !selectedAttendance || !selectedGuests) {
+        alert('Please fill in all fields and make your selections.');
+        return;
+      }
+
+      const submitBtn = form.querySelector('.submit-btn');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Submitting...';
+      submitBtn.disabled = true;
+
+      // Create hidden iframe form submission
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.name = 'rsvp_frame';
+      document.body.appendChild(iframe);
+
+      const hiddenForm = document.createElement('form');
+      hiddenForm.method = 'POST';
+      hiddenForm.action = SCRIPT_URL;
+      hiddenForm.target = 'rsvp_frame';
+
+      // Add form fields
+      ['name', 'attendance', 'guests'].forEach((field, index) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = field;
+        input.value = [name, selectedAttendance, selectedGuests][index];
+        hiddenForm.appendChild(input);
+      });
+
+      document.body.appendChild(hiddenForm);
+
+      let submitted = false;
+      iframe.onload = function() {
+        if (!submitted) return;
+        
+        alert("Thank you for your RSVP! We look forward to celebrating with you.");
+        form.reset();
+        selectedAttendance = '';
+        selectedGuests = '';
+        document.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('selected'));
+        
+        // Cleanup
+        document.body.removeChild(iframe);
+        document.body.removeChild(hiddenForm);
+        
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      };
+
+      setTimeout(() => {
+        submitted = true;
+        hiddenForm.submit();
+      }, 100);
+
+      // Fallback timeout
+      setTimeout(() => {
+        if (submitted) {
+          alert("RSVP submitted! Thank you.");
+          form.reset();
+          selectedAttendance = '';
+          selectedGuests = '';
+          document.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('selected'));
+          
+          if (document.body.contains(iframe)) document.body.removeChild(iframe);
+          if (document.body.contains(hiddenForm)) document.body.removeChild(hiddenForm);
+          
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+        }
+      }, 5000);
+    });
+  </script>
 </body>
 </html>

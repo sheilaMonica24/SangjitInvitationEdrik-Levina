@@ -9,38 +9,44 @@ form.addEventListener('submit', function(e) {
   const attendance = document.getElementById('attendance').value;
   const guests = document.getElementById('guests').value;
 
-  const data = { name, attendance, guests };
-
   // Show loading state
   const submitBtn = form.querySelector('button[type="submit"]');
   const originalText = submitBtn.textContent;
   submitBtn.textContent = 'Submitting...';
   submitBtn.disabled = true;
 
-  const formData = new FormData();
-  formData.append('name', name);
-  formData.append('attendance', attendance);
-  formData.append('guests', guests);
-
-  fetch(SCRIPT_URL, {
-    method: 'POST',
-    body: formData
-  })
-  .then(() => {
-    // Success - don't try to parse response due to CORS
-    console.log("RSVP submitted successfully");
+  // Try JSONP approach for better compatibility
+  const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+  
+  // Create callback function
+  window[callbackName] = function(response) {
+    console.log("Success:", response);
     alert("Thank you for your RSVP!");
     form.reset();
-  })
-  .catch(err => {
-    console.error("Error:", err);
-    alert("Error submitting RSVP, please try again.");
-  })
-  .finally(() => {
+    
+    // Cleanup
+    document.head.removeChild(script);
+    delete window[callbackName];
+    
     // Reset button state
     submitBtn.textContent = originalText;
     submitBtn.disabled = false;
-  });
+  };
+
+  // Create script element for JSONP
+  const script = document.createElement('script');
+  script.src = `${SCRIPT_URL}?callback=${callbackName}&name=${encodeURIComponent(name)}&attendance=${encodeURIComponent(attendance)}&guests=${encodeURIComponent(guests)}`;
+  
+  // Handle errors
+  script.onerror = function() {
+    alert("Error submitting RSVP, please try again.");
+    document.head.removeChild(script);
+    delete window[callbackName];
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
+  };
+
+  document.head.appendChild(script);
 });
 
 // Download function for Excel export

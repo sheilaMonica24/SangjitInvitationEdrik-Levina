@@ -17,10 +17,14 @@ form.addEventListener('submit', function(e) {
   submitBtn.textContent = 'Submitting...';
   submitBtn.disabled = true;
 
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('attendance', attendance);
+  formData.append('guests', guests);
+
   fetch(SCRIPT_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+    body: formData
   })
   .then(() => {
     // Success - don't try to parse response due to CORS

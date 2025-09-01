@@ -690,7 +690,10 @@
       const submitBtn = form.querySelector('.submit-btn');
       const successMessage = document.getElementById('successMessage');
       
-      // Form submission handler
+      // Replace with your Google Apps Script Web App URL
+      const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCqXnPJuGthsZdvgsdGSZgrVykQbcMlGpe7Zluo8NUTB5IsH0H4HbsXrmuFicLvooGZA/exec";
+      
+      // Form submission handler with Google Sheets integration
       form.addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -707,13 +710,48 @@
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<span>Submitting...</span>';
         
-        // Simulate form submission
-        setTimeout(() => {
-          // Show success message
+        console.log('Submitting data:', { name, attendance, guests });
+        
+        // Create hidden iframe for Google Apps Script submission
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.name = 'rsvp_frame';
+        document.body.appendChild(iframe);
+
+        // Create a form that submits to the iframe
+        const hiddenForm = document.createElement('form');
+        hiddenForm.method = 'POST';
+        hiddenForm.action = SCRIPT_URL;
+        hiddenForm.target = 'rsvp_frame';
+
+        // Add form fields
+        const formData = { name, attendance, guests };
+        Object.keys(formData).forEach(key => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = key;
+          input.value = formData[key];
+          hiddenForm.appendChild(input);
+        });
+
+        document.body.appendChild(hiddenForm);
+
+        // Handle iframe load (success/error)
+        let submitted = false;
+        iframe.onload = function() {
+          if (!submitted) return; // Ignore initial load
+          
+          console.log('Form submitted successfully to Google Sheets');
+          
+          // Show success message with your original styling
           successMessage.classList.add('show');
           
           // Reset form
           form.reset();
+          
+          // Cleanup iframe and hidden form
+          document.body.removeChild(iframe);
+          document.body.removeChild(hiddenForm);
           
           // Reset button
           submitBtn.disabled = false;
@@ -723,14 +761,47 @@
           setTimeout(() => {
             successMessage.classList.remove('show');
           }, 5000);
-        }, 1500);
+        };
+
+        // Submit the hidden form
+        setTimeout(() => {
+          submitted = true;
+          hiddenForm.submit();
+        }, 100);
+
+        // Fallback timeout in case of issues
+        setTimeout(() => {
+          if (submitted && submitBtn.disabled) {
+            console.log('Fallback timeout - assuming success');
+            
+            // Show success message
+            successMessage.classList.add('show');
+            
+            // Reset form
+            form.reset();
+            
+            // Cleanup if elements still exist
+            if (document.body.contains(iframe)) document.body.removeChild(iframe);
+            if (document.body.contains(hiddenForm)) document.body.removeChild(hiddenForm);
+            
+            // Reset button state
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span>Submit RSVP</span>';
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+              successMessage.classList.remove('show');
+            }, 5000);
+          }
+        }, 8000);
       });
 
-      // Add subtle animations to form elements
+      // Add subtle animations to form elements (preserved from original)
       const formElements = document.querySelectorAll('.styled-select, .name-input');
       formElements.forEach(element => {
         element.addEventListener('focus', function() {
           this.style.transform = 'scale(1.02)';
+          this.style.transition = 'transform 0.2s ease';
         });
         
         element.addEventListener('blur', function() {
@@ -738,6 +809,11 @@
         });
       });
     });
+
+    // Optional: Download function for Excel export
+    function downloadExcel() {
+      alert("Excel download feature needs additional setup. Check your Google Sheet directly for now.");
+    }
   </script>
 </body>
 </html>

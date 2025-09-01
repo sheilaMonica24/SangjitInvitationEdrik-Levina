@@ -539,9 +539,85 @@
     .rsvp-question:last-of-type {
       margin-bottom: 30px;
     }
+
+    /* Audio Controls Styling */
+    .audio-controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .audio-btn {
+      background: rgba(44, 62, 90, 0.9);
+      color: #f9f6ef;
+      border: 2px solid #c9a876;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .audio-btn:hover {
+      background: rgba(201, 168, 118, 0.9);
+      color: #2c3e5a;
+      transform: scale(1.05);
+    }
+
+    .audio-btn:active {
+      transform: scale(0.95);
+    }
+
+    #audioIcon {
+      font-size: 1.1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .audio-btn.playing #audioIcon {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    @media (max-width: 768px) {
+      .audio-controls {
+        top: 15px;
+        right: 15px;
+      }
+      
+      .audio-btn {
+        padding: 10px 16px;
+        font-size: 0.8rem;
+      }
+    }
   </style>
 </head>
 <body>
+  <!-- Audio Controls -->
+  <div class="audio-controls">
+    <button id="audioToggle" class="audio-btn">
+      <span id="audioIcon">🔊</span>
+      <span id="audioText">Music</span>
+    </button>
+  </div>
+
+  <!-- Background Audio -->
+  <audio id="backgroundMusic" loop autoplay>
+    <source src="I Like You So Much.mp3" type="audio/mpeg">
+    <!-- <source src="I Like You So Much.ogg" type="audio/ogg"> -->
+    Your browser does not support the audio element.
+  </audio>
+
   <div class="invitation-card">
     <!-- Header Section -->
     <div class="header-section">
@@ -643,6 +719,115 @@
       const successMessage = document.getElementById('successMessage');
       const attendanceSelect = document.getElementById('attendance');
       const guestsSelect = document.getElementById('guests');
+      
+      // Audio controls
+      const audioToggle = document.getElementById('audioToggle');
+      const backgroundMusic = document.getElementById('backgroundMusic');
+      const audioIcon = document.getElementById('audioIcon');
+      const audioText = document.getElementById('audioText');
+      
+      let isPlaying = false;
+      
+      // Set initial volume (adjust as needed: 0.0 to 1.0)
+      backgroundMusic.volume = 0.3;
+      
+      // Autoplay attempt when page loads
+      function attemptAutoplay() {
+        backgroundMusic.play().then(() => {
+          // Autoplay successful
+          audioIcon.textContent = '🔊';
+          audioText.textContent = 'Pause Music';
+          audioToggle.classList.add('playing');
+          isPlaying = true;
+          console.log('Autoplay successful');
+        }).catch(error => {
+          // Autoplay blocked - show play button
+          console.log('Autoplay blocked:', error);
+          audioIcon.textContent = '🔇';
+          audioText.textContent = 'Play Music';
+          audioToggle.classList.remove('playing');
+          isPlaying = false;
+          
+          // Show a subtle notification that user can start music
+          showMusicNotification();
+        });
+      }
+      
+      // Show subtle notification about music
+      function showMusicNotification() {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+          position: fixed;
+          top: 80px;
+          right: 20px;
+          background: rgba(201, 168, 118, 0.9);
+          color: #2c3e5a;
+          padding: 10px 15px;
+          border-radius: 8px;
+          font-size: 0.85rem;
+          z-index: 999;
+          animation: slideIn 0.5s ease-out;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        `;
+        notification.textContent = '🎵 Click to play background music';
+        document.body.appendChild(notification);
+        
+        // Auto-remove notification after 4 seconds
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.style.animation = 'fadeOut 0.5s ease-out';
+            setTimeout(() => {
+              if (notification.parentNode) {
+                document.body.removeChild(notification);
+              }
+            }, 500);
+          }
+        }, 4000);
+      }
+      
+      // Try autoplay on page load
+      setTimeout(() => {
+        attemptAutoplay();
+      }, 500);
+      
+      // Also try autoplay on first user interaction (more likely to succeed)
+      let hasTriedUserInteraction = false;
+      document.addEventListener('click', function() {
+        if (!hasTriedUserInteraction && !isPlaying) {
+          hasTriedUserInteraction = true;
+          attemptAutoplay();
+        }
+      }, { once: true });
+      
+      // Audio toggle functionality
+      audioToggle.addEventListener('click', function() {
+        if (isPlaying) {
+          backgroundMusic.pause();
+          audioIcon.textContent = '🔇';
+          audioText.textContent = 'Play Music';
+          audioToggle.classList.remove('playing');
+          isPlaying = false;
+        } else {
+          backgroundMusic.play().then(() => {
+            audioIcon.textContent = '🔊';
+            audioText.textContent = 'Pause Music';
+            audioToggle.classList.add('playing');
+            isPlaying = true;
+          }).catch(error => {
+            console.log('Audio play failed:', error);
+            alert('Unable to play music. Please try clicking the music button again.');
+          });
+        }
+      });
+      
+      // Handle audio end (if not looped)
+      backgroundMusic.addEventListener('ended', function() {
+        audioIcon.textContent = '🔇';
+        audioText.textContent = 'Play Music';
+        audioToggle.classList.remove('playing');
+        isPlaying = false;
+      });
       
       // Replace with your Google Apps Script Web App URL
       const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCqXnPJuGthsZdvgsdGSZgrVykQbcMlGpe7Zluo8NUTB5IsH0H4HbsXrmuFicLvooGZA/exec";

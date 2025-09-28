@@ -124,53 +124,176 @@
       margin-top: 10px;
     }
 
-    .event-details {
-      margin-bottom: 40px;
+      .event-details {
+        margin-bottom: 40px;
+      }
+
+      .event-details h3 {
+        font-family: 'Crimson Text', serif;
+        font-style: italic;
+        font-size: clamp(1.4rem, 3vw, 1.8rem);
+        color: #c9a876;
+        margin-bottom: 15px;
+        font-weight: 400;
+      }
+
+      .detail-item {
+        margin-bottom: 15px;
+        font-size: clamp(1rem, 2.5vw, 1.1rem);
+        line-height: 1.4;
+      }
+
+      .detail-item strong {
+        color: #c9a876;
+      }
+
+      .detail-item a {
+        color: #c9a876;
+        text-decoration: underline;
+        font-size: 0.9rem;
+        margin-left: 5px;
+      }
+
+      .dress-code h3 {
+        margin-top: 30px;
+      }
+
+      .dress-code .color-red {
+        color: #e63946;
+        font-weight: 600;
+        font-size: clamp(1.1rem, 2.8vw, 1.3rem);
+      }
+
+      .line {
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #c9a876, transparent);
+        margin-top: 30px;
+      }
+
+    /* Event section styling */
+    .event-section {
+      margin-bottom: 25px;
     }
 
-    .event-details h3 {
+    .event-section h3 {
       font-family: 'Crimson Text', serif;
       font-style: italic;
       font-size: clamp(1.4rem, 3vw, 1.8rem);
-      color: #c9a876;
       margin-bottom: 15px;
+      font-weight: 400;
+      position: relative;
+      padding-bottom: 8px;
+    }
+
+    /* Sangjit section styling */
+    /* .sangjit-section h3 {
+      color: #c9a876;
+      border-bottom: 2px solid #c9a876;
+    }
+
+    .sangjit-section h3::after {
+      content: '✨';
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: 1.2rem;
+    } */
+
+    /* Tea Pai section styling */
+    /* .teapai-section h3 {
+      color: #8FBC8F;
+      border-bottom: 2px solid #8FBC8F;
+    }
+
+    .teapai-section h3::after {
+      content: '🍵';
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: 1.2rem;
+    } */
+
+    /* Different background tints for sections */
+    /* .sangjit-section {
+      background: rgba(201, 168, 118, 0.05);
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #c9a876;
+    }
+
+    .teapai-section {
+      background: rgba(143, 188, 143, 0.05);
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #8FBC8F;
+    } */
+    /* Clean, minimal event timeline */
+    .event-timeline {
+      margin: 30px 0;
+    }
+
+    .timeline-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(201, 168, 118, 0.2);
+      margin-bottom: 8px;
+    }
+
+    .timeline-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .event-label {
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: 1.2rem;
       font-weight: 400;
     }
 
-    .detail-item {
-      margin-bottom: 15px;
-      font-size: clamp(1rem, 2.5vw, 1.1rem);
-      line-height: 1.4;
-    }
-
-    .detail-item strong {
+    .sangjit .event-label {
       color: #c9a876;
     }
 
-    .detail-item a {
-      color: #c9a876;
-      text-decoration: underline;
-      font-size: 0.9rem;
-      margin-left: 5px;
+    .teapai .event-label {
+      color: #8FBC8F;
     }
 
-    .dress-code h3 {
-      margin-top: 30px;
+    .event-time {
+      font-size: 1rem;
+      color: #f9f6ef;
+      opacity: 0.9;
+      font-weight: 300;
     }
 
-    .dress-code .color-red {
-      color: #e63946;
-      font-weight: 600;
-      font-size: clamp(1.1rem, 2.8vw, 1.3rem);
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      .timeline-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 0;
+      }
+      
+      .event-time {
+        margin-top: 4px;
+        font-size: 0.95rem;
+      }
     }
 
-    .line {
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #c9a876, transparent);
-      margin-top: 30px;
-    }
+    
 
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .event-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+      }
+    }
+    
     /* Right Column - RSVP */
     .right-column {
       flex: 1;
@@ -295,6 +418,54 @@
       background-color: rgba(201, 168, 118, 0.05);
     }
 
+    .teapai-question {
+      display: none;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+    .bullet-options {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .bullet-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 12px 18px;
+      border: 2px solid #c9a876;
+      border-radius: 12px;
+      background: transparent;
+      color: #2c3e5a;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+
+    .bullet-option:hover {
+      background: rgba(201, 168, 118, 0.1);
+      border-color: #b8975f;
+    }
+
+    .bullet-option.selected {
+      background: #c9a876;
+      color: #f9f6ef;
+    }
+
+    .bullet-option input[type="radio"] {
+      display: none;
+    }
+
+    .teapai-question.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
     /* Loading Indicator */
     .loading-indicator {
       display: none;
@@ -453,6 +624,14 @@
       .rsvp-deadline {
         margin-bottom: 30px;
         text-align: center;
+      }
+      .bullet-options {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .bullet-option {
+        justify-content: center;
       }
 
       .styled-select, .name-input {
@@ -629,7 +808,7 @@
       
       <div class="invitation-text">
         Invite you to share in the joy of their<br>
-        <em>Sangjit</em> on December 29, 2025
+        <em>Sangjit & Tea Pai</em> on December 29, 2025
       </div>
     </div>
 
@@ -645,18 +824,48 @@
           <span class="highlight">NOV 2, 2025</span>
         </div>
 
-        <div class="event-details">
+        <!-- <div class="event-details">
           <h3>Event</h3> 
-          <div class="detail-item">📍 Angke Heritage PIK 2 <a href="https://maps.app.goo.gl/6CixEJv7gNN99wFL6" target="_blank"><em>(View Map)</em></a>
+          <div class="detail-item">📅 29 December 2025</div>
+          <div class="detail-item">📍 Angke Heritage PIK 2 <a href="https://maps.app.goo.gl/6CixEJv7gNN99wFL6" target="_blank"><em>(View Map)</em></a></div>
+
+          <div class="event-item sangjit-item">
+            <span class="event-name">Sangjit</span>
+            <span class="event-time">10.30 - 14.00 WIB</span>
+          </div>
+          
+          <div class="event-item teapai-item">
+            <span class="event-name">Tea Pai</span>
+            <span class="event-time">Starting at 2:00 PM</span>
           </div>
 
-          <h3>Time</h3>
-          <div class="detail-item">📅 29 December 2025</div>
-          <div class="detail-item">⏰ 10.30 - 14.00 WIB</div>
-          
           <div class="dress-code">
             <h3>Dress Code</h3>
-            <div class="detail-item color-red"> 👗 Red</div>
+            <div class="detail-item color-red">👗 Red</div>
+          </div>
+
+          <div class="line"></div>
+        </div> -->
+        <div class="event-details">
+          <h3>Event</h3> 
+          <div class="detail-item">📅 29 December 2025</div>
+          <div class="detail-item">📍 Angke Heritage PIK 2 <a href="https://maps.app.goo.gl/6CixEJv7gNN99wFL6" target="_blank"><em>(View Map)</em></a></div>
+
+          <div class="event-timeline">
+            <div class="timeline-item sangjit">
+              <span class="event-label">Sangjit</span>
+              <span class="event-time">10.30 - 14.00 WIB</span>
+            </div>
+            
+            <div class="timeline-item teapai">
+              <span class="event-label">Tea Pai</span>
+              <span class="event-time">Starting at 14:00 WIB</span>
+            </div>
+          </div>
+
+          <div class="dress-code">
+            <h3>Dress Code</h3>
+            <div class="detail-item color-red">👗 Red</div>
           </div>
 
           <div class="line"></div>
@@ -698,6 +907,20 @@
               </div>
               <div class="loading-indicator" id="guestsLoading">● Processing...</div>
             </div>
+            
+            <div class="rsvp-question teapai-question" id="teapaiQuestion">
+              <h3>Attend for Tea Pai?</h3>
+              <div class="bullet-options">
+                <label class="bullet-option">
+                  <input type="radio" name="teapai" value="Yes">
+                  <span>Yes, I'll join Tea Pai</span>
+                </label>
+                <label class="bullet-option">
+                  <input type="radio" name="teapai" value="No">
+                  <span>No, just Sangjit ceremony</span>
+                </label>
+              </div>
+            </div>
 
             <button type="submit" class="submit-btn">
               <span>Submit RSVP</span>
@@ -713,12 +936,288 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    // document.addEventListener('DOMContentLoaded', function() {
+    //   const form = document.getElementById('rsvpForm');
+    //   const submitBtn = form.querySelector('.submit-btn');
+    //   const successMessage = document.getElementById('successMessage');
+    //   const attendanceSelect = document.getElementById('attendance');
+    //   const guestsSelect = document.getElementById('guests');
+      
+    //   // Audio controls
+    //   const audioToggle = document.getElementById('audioToggle');
+    //   const backgroundMusic = document.getElementById('backgroundMusic');
+    //   const audioIcon = document.getElementById('audioIcon');
+    //   const audioText = document.getElementById('audioText');
+      
+    //   let isPlaying = false;
+      
+    //   // Set initial volume (adjust as needed: 0.0 to 1.0)
+    //   backgroundMusic.volume = 0.3;
+      
+    //   // Autoplay attempt when page loads
+    //   function attemptAutoplay() {
+    //     backgroundMusic.play().then(() => {
+    //       // Autoplay successful
+    //       audioIcon.textContent = '🔊';
+    //       audioText.textContent = 'Pause Music';
+    //       audioToggle.classList.add('playing');
+    //       isPlaying = true;
+    //       console.log('Autoplay successful');
+    //     }).catch(error => {
+    //       // Autoplay blocked - show play button
+    //       console.log('Autoplay blocked:', error);
+    //       audioIcon.textContent = '🔇';
+    //       audioText.textContent = 'Play Music';
+    //       audioToggle.classList.remove('playing');
+    //       isPlaying = false;
+          
+    //       // Show a subtle notification that user can start music
+    //       showMusicNotification();
+    //     });
+    //   }
+      
+    //   // Show subtle notification about music
+    //   function showMusicNotification() {
+    //     const notification = document.createElement('div');
+    //     notification.style.cssText = `
+    //       position: fixed;
+    //       top: 80px;
+    //       right: 20px;
+    //       background: rgba(201, 168, 118, 0.9);
+    //       color: #2c3e5a;
+    //       padding: 10px 15px;
+    //       border-radius: 8px;
+    //       font-size: 0.85rem;
+    //       z-index: 999;
+    //       animation: slideIn 0.5s ease-out;
+    //       backdrop-filter: blur(10px);
+    //       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    //     `;
+    //     notification.textContent = '🎵 Click to play background music';
+    //     document.body.appendChild(notification);
+        
+    //     // Auto-remove notification after 4 seconds
+    //     setTimeout(() => {
+    //       if (notification.parentNode) {
+    //         notification.style.animation = 'fadeOut 0.5s ease-out';
+    //         setTimeout(() => {
+    //           if (notification.parentNode) {
+    //             document.body.removeChild(notification);
+    //           }
+    //         }, 500);
+    //       }
+    //     }, 4000);
+    //   }
+      
+    //   // Try autoplay on page load
+    //   setTimeout(() => {
+    //     attemptAutoplay();
+    //   }, 500);
+      
+    //   // Also try autoplay on first user interaction (more likely to succeed)
+    //   let hasTriedUserInteraction = false;
+    //   document.addEventListener('click', function() {
+    //     if (!hasTriedUserInteraction && !isPlaying) {
+    //       hasTriedUserInteraction = true;
+    //       attemptAutoplay();
+    //     }
+    //   }, { once: true });
+      
+    //   // Audio toggle functionality
+    //   audioToggle.addEventListener('click', function() {
+    //     if (isPlaying) {
+    //       backgroundMusic.pause();
+    //       audioIcon.textContent = '🔇';
+    //       audioText.textContent = 'Play Music';
+    //       audioToggle.classList.remove('playing');
+    //       isPlaying = false;
+    //     } else {
+    //       backgroundMusic.play().then(() => {
+    //         audioIcon.textContent = '🔊';
+    //         audioText.textContent = 'Pause Music';
+    //         audioToggle.classList.add('playing');
+    //         isPlaying = true;
+    //       }).catch(error => {
+    //         console.log('Audio play failed:', error);
+    //         alert('Unable to play music. Please try clicking the music button again.');
+    //       });
+    //     }
+    //   });
+      
+    //   // Handle audio end (if not looped)
+    //   backgroundMusic.addEventListener('ended', function() {
+    //     audioIcon.textContent = '🔇';
+    //     audioText.textContent = 'Play Music';
+    //     audioToggle.classList.remove('playing');
+    //     isPlaying = false;
+    //   });
+      
+    //   // Replace with your Google Apps Script Web App URL
+    //   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCqXnPJuGthsZdvgsdGSZgrVykQbcMlGpe7Zluo8NUTB5IsH0H4HbsXrmuFicLvooGZA/exec";
+      
+    //   // Handle attendance change to auto-fill guest count
+    //   attendanceSelect.addEventListener('change', function() {
+    //     const selectedValue = this.value;
+        
+    //     if (selectedValue === 'No') {
+    //       // Auto-select 0 guests and disable the select
+    //       guestsSelect.value = '0';
+    //       guestsSelect.disabled = true;
+    //       guestsSelect.style.opacity = '0.6';
+    //       guestsSelect.style.cursor = 'not-allowed';
+    //     } else if (selectedValue === 'Yes') {
+    //       // Enable guest selection and reset to default
+    //       guestsSelect.disabled = false;
+    //       guestsSelect.style.opacity = '1';
+    //       guestsSelect.style.cursor = 'pointer';
+    //       guestsSelect.value = ''; // Reset to default
+    //     } else {
+    //       // Reset if no selection
+    //       guestsSelect.disabled = false;
+    //       guestsSelect.style.opacity = '1';
+    //       guestsSelect.style.cursor = 'pointer';
+    //       guestsSelect.value = '';
+    //     }
+    //   });
+      
+    //   // Form submission handler with Google Sheets integration
+    //   form.addEventListener('submit', function(e) {
+    //     e.preventDefault();
+        
+    //     const name = document.getElementById('name').value.trim();
+    //     const attendance = document.getElementById('attendance').value;
+    //     const guests = document.getElementById('guests').value;
+        
+    //     if (!name || !attendance || !guests) {
+    //       alert('Please fill in all fields');
+    //       return;
+    //     }
+        
+    //     // Disable button and show loading
+    //     submitBtn.disabled = true;
+    //     submitBtn.innerHTML = '<span>Submitting...</span>';
+        
+    //     console.log('Submitting data:', { name, attendance, guests });
+        
+    //     // Create hidden iframe for Google Apps Script submission
+    //     const iframe = document.createElement('iframe');
+    //     iframe.style.display = 'none';
+    //     iframe.name = 'rsvp_frame';
+    //     document.body.appendChild(iframe);
+
+    //     // Create a form that submits to the iframe
+    //     const hiddenForm = document.createElement('form');
+    //     hiddenForm.method = 'POST';
+    //     hiddenForm.action = SCRIPT_URL;
+    //     hiddenForm.target = 'rsvp_frame';
+
+    //     // Add form fields
+    //     const formData = { name, attendance, guests };
+    //     Object.keys(formData).forEach(key => {
+    //       const input = document.createElement('input');
+    //       input.type = 'hidden';
+    //       input.name = key;
+    //       input.value = formData[key];
+    //       hiddenForm.appendChild(input);
+    //     });
+
+    //     document.body.appendChild(hiddenForm);
+
+    //     // Handle iframe load (success/error)
+    //     let submitted = false;
+    //     iframe.onload = function() {
+    //       if (!submitted) return; // Ignore initial load
+          
+    //       console.log('Form submitted successfully to Google Sheets');
+          
+    //       // Show success message with your original styling
+    //       successMessage.classList.add('show');
+          
+    //       // Reset form
+    //       form.reset();
+          
+    //       // Reset guest select state
+    //       guestsSelect.disabled = false;
+    //       guestsSelect.style.opacity = '1';
+    //       guestsSelect.style.cursor = 'pointer';
+          
+    //       // Cleanup iframe and hidden form
+    //       document.body.removeChild(iframe);
+    //       document.body.removeChild(hiddenForm);
+          
+    //       // Reset button
+    //       submitBtn.disabled = false;
+    //       submitBtn.innerHTML = '<span>Submit RSVP</span>';
+          
+    //       // Hide success message after 5 seconds
+    //       setTimeout(() => {
+    //         successMessage.classList.remove('show');
+    //       }, 5000);
+    //     };
+
+    //     // Submit the hidden form
+    //     setTimeout(() => {
+    //       submitted = true;
+    //       hiddenForm.submit();
+    //     }, 100);
+
+    //     // Fallback timeout in case of issues
+    //     setTimeout(() => {
+    //       if (submitted && submitBtn.disabled) {
+    //         console.log('Fallback timeout - assuming success');
+            
+    //         // Show success message
+    //         successMessage.classList.add('show');
+            
+    //         // Reset form
+    //         form.reset();
+            
+    //         // Reset guest select state
+    //         guestsSelect.disabled = false;
+    //         guestsSelect.style.opacity = '1';
+    //         guestsSelect.style.cursor = 'pointer';
+            
+    //         // Cleanup if elements still exist
+    //         if (document.body.contains(iframe)) document.body.removeChild(iframe);
+    //         if (document.body.contains(hiddenForm)) document.body.removeChild(hiddenForm);
+            
+    //         // Reset button state
+    //         submitBtn.disabled = false;
+    //         submitBtn.innerHTML = '<span>Submit RSVP</span>';
+            
+    //         // Hide success message after 5 seconds
+    //         setTimeout(() => {
+    //           successMessage.classList.remove('show');
+    //         }, 5000);
+    //       }
+    //     }, 8000);
+    //   });
+
+    //   // Add subtle animations to form elements (preserved from original)
+    //   const formElements = document.querySelectorAll('.styled-select, .name-input');
+    //   formElements.forEach(element => {
+    //     element.addEventListener('focus', function() {
+    //       this.style.transform = 'scale(1.02)';
+    //       this.style.transition = 'transform 0.2s ease';
+    //     });
+        
+    //     element.addEventListener('blur', function() {
+    //       this.style.transform = 'scale(1)';
+    //     });
+    //   });
+    // });
+
+    // // Optional: Download function for Excel export
+    // function downloadExcel() {
+    //   alert("Excel download feature needs additional setup. Check your Google Sheet directly for now.");
+    // }
+      document.addEventListener('DOMContentLoaded', function() {
       const form = document.getElementById('rsvpForm');
       const submitBtn = form.querySelector('.submit-btn');
       const successMessage = document.getElementById('successMessage');
       const attendanceSelect = document.getElementById('attendance');
       const guestsSelect = document.getElementById('guests');
+      const teapaiQuestion = document.getElementById('teapaiQuestion');
       
       // Audio controls
       const audioToggle = document.getElementById('audioToggle');
@@ -830,30 +1329,66 @@
       });
       
       // Replace with your Google Apps Script Web App URL
-      const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCqXnPJuGthsZdvgsdGSZgrVykQbcMlGpe7Zluo8NUTB5IsH0H4HbsXrmuFicLvooGZA/exec";
+      const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbztwynNZfKjh8us1_uIHvo7YrFislXBLq5a33i93buQoJE5oLcyH7OOPKhXu4gczt2-rg/exec";
       
-      // Handle attendance change to auto-fill guest count
+      // Handle attendance change to show/hide Tea Pai question and auto-fill guest count
       attendanceSelect.addEventListener('change', function() {
         const selectedValue = this.value;
+        const teapaiRadios = document.querySelectorAll('input[name="teapai"]');
         
         if (selectedValue === 'No') {
+          // Hide Tea Pai question and reset selection
+          if (teapaiQuestion) {
+            teapaiQuestion.classList.remove('show');
+            teapaiRadios.forEach(radio => {
+              radio.checked = false;
+              radio.closest('.bullet-option').classList.remove('selected');
+            });
+          }
+          
           // Auto-select 0 guests and disable the select
           guestsSelect.value = '0';
           guestsSelect.disabled = true;
           guestsSelect.style.opacity = '0.6';
           guestsSelect.style.cursor = 'not-allowed';
         } else if (selectedValue === 'Yes') {
+          // Show Tea Pai question
+          if (teapaiQuestion) {
+            teapaiQuestion.classList.add('show');
+          }
+          
           // Enable guest selection and reset to default
           guestsSelect.disabled = false;
           guestsSelect.style.opacity = '1';
           guestsSelect.style.cursor = 'pointer';
           guestsSelect.value = ''; // Reset to default
         } else {
-          // Reset if no selection
+          // Hide Tea Pai question if no selection
+          if (teapaiQuestion) {
+            teapaiQuestion.classList.remove('show');
+            teapaiRadios.forEach(radio => {
+              radio.checked = false;
+              radio.closest('.bullet-option').classList.remove('selected');
+            });
+          }
+          
+          // Reset guest select
           guestsSelect.disabled = false;
           guestsSelect.style.opacity = '1';
           guestsSelect.style.cursor = 'pointer';
           guestsSelect.value = '';
+        }
+      });
+      
+      // Handle bullet point radio button styling
+      document.addEventListener('change', function(e) {
+        if (e.target.type === 'radio' && e.target.name === 'teapai') {
+          // Remove selected class from all teapai options
+          document.querySelectorAll('input[name="teapai"]').forEach(radio => {
+            radio.closest('.bullet-option').classList.remove('selected');
+          });
+          // Add selected class to the chosen option
+          e.target.closest('.bullet-option').classList.add('selected');
         }
       });
       
@@ -864,9 +1399,11 @@
         const name = document.getElementById('name').value.trim();
         const attendance = document.getElementById('attendance').value;
         const guests = document.getElementById('guests').value;
+        const teapai = document.querySelector('input[name="teapai"]:checked')?.value || '';
         
-        if (!name || !attendance || !guests) {
-          alert('Please fill in all fields');
+        // Validate form - only require teapai if attending
+        if (!name || !attendance || !guests || (attendance === 'Yes' && !teapai)) {
+          alert('Please fill in all required fields');
           return;
         }
         
@@ -874,7 +1411,7 @@
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<span>Submitting...</span>';
         
-        console.log('Submitting data:', { name, attendance, guests });
+        console.log('Submitting data:', { name, attendance, guests, teapai });
         
         // Create hidden iframe for Google Apps Script submission
         const iframe = document.createElement('iframe');
@@ -889,7 +1426,7 @@
         hiddenForm.target = 'rsvp_frame';
 
         // Add form fields
-        const formData = { name, attendance, guests };
+        const formData = { name, attendance, guests, teapai };
         Object.keys(formData).forEach(key => {
           const input = document.createElement('input');
           input.type = 'hidden';
@@ -917,6 +1454,16 @@
           guestsSelect.disabled = false;
           guestsSelect.style.opacity = '1';
           guestsSelect.style.cursor = 'pointer';
+          
+          // Reset Tea Pai question
+          if (teapaiQuestion) {
+            teapaiQuestion.classList.remove('show');
+            const teapaiRadios = document.querySelectorAll('input[name="teapai"]');
+            teapaiRadios.forEach(radio => {
+              radio.checked = false;
+              radio.closest('.bullet-option').classList.remove('selected');
+            });
+          }
           
           // Cleanup iframe and hidden form
           document.body.removeChild(iframe);
@@ -954,6 +1501,16 @@
             guestsSelect.style.opacity = '1';
             guestsSelect.style.cursor = 'pointer';
             
+            // Reset Tea Pai question
+            if (teapaiQuestion) {
+              teapaiQuestion.classList.remove('show');
+              const teapaiRadios = document.querySelectorAll('input[name="teapai"]');
+              teapaiRadios.forEach(radio => {
+                radio.checked = false;
+                radio.closest('.bullet-option').classList.remove('selected');
+              });
+            }
+            
             // Cleanup if elements still exist
             if (document.body.contains(iframe)) document.body.removeChild(iframe);
             if (document.body.contains(hiddenForm)) document.body.removeChild(hiddenForm);
@@ -970,7 +1527,7 @@
         }, 8000);
       });
 
-      // Add subtle animations to form elements (preserved from original)
+      // Add subtle animations to form elements
       const formElements = document.querySelectorAll('.styled-select, .name-input');
       formElements.forEach(element => {
         element.addEventListener('focus', function() {

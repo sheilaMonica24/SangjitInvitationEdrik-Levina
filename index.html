@@ -430,7 +430,12 @@
       flex-wrap: wrap;
       margin-top: 10px;
     }
-
+    .bullet-option.selected:disabled,
+    .bullet-option.selected input:disabled {
+      background: #c9a876 !important;
+      color: #f9f6ef !important;
+      opacity: 0.8;
+    }
     .bullet-option {
       display: flex;
       align-items: center;
@@ -936,12 +941,13 @@
   </div>
 
   <script>
-    // document.addEventListener('DOMContentLoaded', function() {
+    //   document.addEventListener('DOMContentLoaded', function() {
     //   const form = document.getElementById('rsvpForm');
     //   const submitBtn = form.querySelector('.submit-btn');
     //   const successMessage = document.getElementById('successMessage');
     //   const attendanceSelect = document.getElementById('attendance');
     //   const guestsSelect = document.getElementById('guests');
+    //   const teapaiQuestion = document.getElementById('teapaiQuestion');
       
     //   // Audio controls
     //   const audioToggle = document.getElementById('audioToggle');
@@ -1053,30 +1059,66 @@
     //   });
       
     //   // Replace with your Google Apps Script Web App URL
-    //   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCqXnPJuGthsZdvgsdGSZgrVykQbcMlGpe7Zluo8NUTB5IsH0H4HbsXrmuFicLvooGZA/exec";
+    //   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbztwynNZfKjh8us1_uIHvo7YrFislXBLq5a33i93buQoJE5oLcyH7OOPKhXu4gczt2-rg/exec";
       
-    //   // Handle attendance change to auto-fill guest count
+    //   // Handle attendance change to show/hide Tea Pai question and auto-fill guest count
     //   attendanceSelect.addEventListener('change', function() {
     //     const selectedValue = this.value;
+    //     const teapaiRadios = document.querySelectorAll('input[name="teapai"]');
         
     //     if (selectedValue === 'No') {
+    //       // Hide Tea Pai question and reset selection
+    //       if (teapaiQuestion) {
+    //         teapaiQuestion.classList.remove('show');
+    //         teapaiRadios.forEach(radio => {
+    //           radio.checked = false;
+    //           radio.closest('.bullet-option').classList.remove('selected');
+    //         });
+    //       }
+          
     //       // Auto-select 0 guests and disable the select
     //       guestsSelect.value = '0';
     //       guestsSelect.disabled = true;
     //       guestsSelect.style.opacity = '0.6';
     //       guestsSelect.style.cursor = 'not-allowed';
     //     } else if (selectedValue === 'Yes') {
+    //       // Show Tea Pai question
+    //       if (teapaiQuestion) {
+    //         teapaiQuestion.classList.add('show');
+    //       }
+          
     //       // Enable guest selection and reset to default
     //       guestsSelect.disabled = false;
     //       guestsSelect.style.opacity = '1';
     //       guestsSelect.style.cursor = 'pointer';
     //       guestsSelect.value = ''; // Reset to default
     //     } else {
-    //       // Reset if no selection
+    //       // Hide Tea Pai question if no selection
+    //       if (teapaiQuestion) {
+    //         teapaiQuestion.classList.remove('show');
+    //         teapaiRadios.forEach(radio => {
+    //           radio.checked = false;
+    //           radio.closest('.bullet-option').classList.remove('selected');
+    //         });
+    //       }
+          
+    //       // Reset guest select
     //       guestsSelect.disabled = false;
     //       guestsSelect.style.opacity = '1';
     //       guestsSelect.style.cursor = 'pointer';
     //       guestsSelect.value = '';
+    //     }
+    //   });
+      
+    //   // Handle bullet point radio button styling
+    //   document.addEventListener('change', function(e) {
+    //     if (e.target.type === 'radio' && e.target.name === 'teapai') {
+    //       // Remove selected class from all teapai options
+    //       document.querySelectorAll('input[name="teapai"]').forEach(radio => {
+    //         radio.closest('.bullet-option').classList.remove('selected');
+    //       });
+    //       // Add selected class to the chosen option
+    //       e.target.closest('.bullet-option').classList.add('selected');
     //     }
     //   });
       
@@ -1087,9 +1129,11 @@
     //     const name = document.getElementById('name').value.trim();
     //     const attendance = document.getElementById('attendance').value;
     //     const guests = document.getElementById('guests').value;
+    //     const teapai = document.querySelector('input[name="teapai"]:checked')?.value || '';
         
-    //     if (!name || !attendance || !guests) {
-    //       alert('Please fill in all fields');
+    //     // Validate form - only require teapai if attending
+    //     if (!name || !attendance || !guests || (attendance === 'Yes' && !teapai)) {
+    //       alert('Please fill in all required fields');
     //       return;
     //     }
         
@@ -1097,7 +1141,7 @@
     //     submitBtn.disabled = true;
     //     submitBtn.innerHTML = '<span>Submitting...</span>';
         
-    //     console.log('Submitting data:', { name, attendance, guests });
+    //     console.log('Submitting data:', { name, attendance, guests, teapai });
         
     //     // Create hidden iframe for Google Apps Script submission
     //     const iframe = document.createElement('iframe');
@@ -1112,7 +1156,7 @@
     //     hiddenForm.target = 'rsvp_frame';
 
     //     // Add form fields
-    //     const formData = { name, attendance, guests };
+    //     const formData = { name, attendance, guests, teapai };
     //     Object.keys(formData).forEach(key => {
     //       const input = document.createElement('input');
     //       input.type = 'hidden';
@@ -1140,6 +1184,16 @@
     //       guestsSelect.disabled = false;
     //       guestsSelect.style.opacity = '1';
     //       guestsSelect.style.cursor = 'pointer';
+          
+    //       // Reset Tea Pai question
+    //       if (teapaiQuestion) {
+    //         teapaiQuestion.classList.remove('show');
+    //         const teapaiRadios = document.querySelectorAll('input[name="teapai"]');
+    //         teapaiRadios.forEach(radio => {
+    //           radio.checked = false;
+    //           radio.closest('.bullet-option').classList.remove('selected');
+    //         });
+    //       }
           
     //       // Cleanup iframe and hidden form
     //       document.body.removeChild(iframe);
@@ -1177,6 +1231,16 @@
     //         guestsSelect.style.opacity = '1';
     //         guestsSelect.style.cursor = 'pointer';
             
+    //         // Reset Tea Pai question
+    //         if (teapaiQuestion) {
+    //           teapaiQuestion.classList.remove('show');
+    //           const teapaiRadios = document.querySelectorAll('input[name="teapai"]');
+    //           teapaiRadios.forEach(radio => {
+    //             radio.checked = false;
+    //             radio.closest('.bullet-option').classList.remove('selected');
+    //           });
+    //         }
+            
     //         // Cleanup if elements still exist
     //         if (document.body.contains(iframe)) document.body.removeChild(iframe);
     //         if (document.body.contains(hiddenForm)) document.body.removeChild(hiddenForm);
@@ -1193,7 +1257,7 @@
     //     }, 8000);
     //   });
 
-    //   // Add subtle animations to form elements (preserved from original)
+    //   // Add subtle animations to form elements
     //   const formElements = document.querySelectorAll('.styled-select, .name-input');
     //   formElements.forEach(element => {
     //     element.addEventListener('focus', function() {
@@ -1211,340 +1275,352 @@
     // function downloadExcel() {
     //   alert("Excel download feature needs additional setup. Check your Google Sheet directly for now.");
     // }
-      document.addEventListener('DOMContentLoaded', function() {
-      const form = document.getElementById('rsvpForm');
-      const submitBtn = form.querySelector('.submit-btn');
-      const successMessage = document.getElementById('successMessage');
-      const attendanceSelect = document.getElementById('attendance');
-      const guestsSelect = document.getElementById('guests');
-      const teapaiQuestion = document.getElementById('teapaiQuestion');
-      
-      // Audio controls
-      const audioToggle = document.getElementById('audioToggle');
-      const backgroundMusic = document.getElementById('backgroundMusic');
-      const audioIcon = document.getElementById('audioIcon');
-      const audioText = document.getElementById('audioText');
-      
-      let isPlaying = false;
-      
-      // Set initial volume (adjust as needed: 0.0 to 1.0)
-      backgroundMusic.volume = 0.3;
-      
-      // Autoplay attempt when page loads
-      function attemptAutoplay() {
-        backgroundMusic.play().then(() => {
-          // Autoplay successful
-          audioIcon.textContent = '🔊';
-          audioText.textContent = 'Pause Music';
-          audioToggle.classList.add('playing');
-          isPlaying = true;
-          console.log('Autoplay successful');
-        }).catch(error => {
-          // Autoplay blocked - show play button
-          console.log('Autoplay blocked:', error);
-          audioIcon.textContent = '🔇';
-          audioText.textContent = 'Play Music';
-          audioToggle.classList.remove('playing');
-          isPlaying = false;
-          
-          // Show a subtle notification that user can start music
-          showMusicNotification();
-        });
-      }
-      
-      // Show subtle notification about music
-      function showMusicNotification() {
-        const notification = document.createElement('div');
-        notification.style.cssText = `
-          position: fixed;
-          top: 80px;
-          right: 20px;
-          background: rgba(201, 168, 118, 0.9);
-          color: #2c3e5a;
-          padding: 10px 15px;
-          border-radius: 8px;
-          font-size: 0.85rem;
-          z-index: 999;
-          animation: slideIn 0.5s ease-out;
-          backdrop-filter: blur(10px);
-          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        `;
-        notification.textContent = '🎵 Click to play background music';
-        document.body.appendChild(notification);
-        
-        // Auto-remove notification after 4 seconds
-        setTimeout(() => {
-          if (notification.parentNode) {
-            notification.style.animation = 'fadeOut 0.5s ease-out';
-            setTimeout(() => {
-              if (notification.parentNode) {
-                document.body.removeChild(notification);
-              }
-            }, 500);
-          }
-        }, 4000);
-      }
-      
-      // Try autoplay on page load
-      setTimeout(() => {
-        attemptAutoplay();
-      }, 500);
-      
-      // Also try autoplay on first user interaction (more likely to succeed)
-      let hasTriedUserInteraction = false;
-      document.addEventListener('click', function() {
-        if (!hasTriedUserInteraction && !isPlaying) {
-          hasTriedUserInteraction = true;
-          attemptAutoplay();
-        }
-      }, { once: true });
-      
-      // Audio toggle functionality
-      audioToggle.addEventListener('click', function() {
-        if (isPlaying) {
-          backgroundMusic.pause();
-          audioIcon.textContent = '🔇';
-          audioText.textContent = 'Play Music';
-          audioToggle.classList.remove('playing');
-          isPlaying = false;
-        } else {
-          backgroundMusic.play().then(() => {
-            audioIcon.textContent = '🔊';
-            audioText.textContent = 'Pause Music';
-            audioToggle.classList.add('playing');
-            isPlaying = true;
-          }).catch(error => {
-            console.log('Audio play failed:', error);
-            alert('Unable to play music. Please try clicking the music button again.');
-          });
-        }
-      });
-      
-      // Handle audio end (if not looped)
-      backgroundMusic.addEventListener('ended', function() {
+    document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('rsvpForm');
+    const submitBtn = form.querySelector('.submit-btn');
+    const successMessage = document.getElementById('successMessage');
+    const attendanceSelect = document.getElementById('attendance');
+    const guestsSelect = document.getElementById('guests');
+    const teapaiQuestion = document.getElementById('teapaiQuestion');
+    
+    // Audio controls
+    const audioToggle = document.getElementById('audioToggle');
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    const audioIcon = document.getElementById('audioIcon');
+    const audioText = document.getElementById('audioText');
+    
+    let isPlaying = false;
+    
+    // Set initial volume (adjust as needed: 0.0 to 1.0)
+    backgroundMusic.volume = 0.3;
+    
+    // Autoplay attempt when page loads
+    function attemptAutoplay() {
+      backgroundMusic.play().then(() => {
+        // Autoplay successful
+        audioIcon.textContent = '🔊';
+        audioText.textContent = 'Pause Music';
+        audioToggle.classList.add('playing');
+        isPlaying = true;
+        console.log('Autoplay successful');
+      }).catch(error => {
+        // Autoplay blocked - show play button
+        console.log('Autoplay blocked:', error);
         audioIcon.textContent = '🔇';
         audioText.textContent = 'Play Music';
         audioToggle.classList.remove('playing');
         isPlaying = false;
-      });
-      
-      // Replace with your Google Apps Script Web App URL
-      const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbztwynNZfKjh8us1_uIHvo7YrFislXBLq5a33i93buQoJE5oLcyH7OOPKhXu4gczt2-rg/exec";
-      
-      // Handle attendance change to show/hide Tea Pai question and auto-fill guest count
-      attendanceSelect.addEventListener('change', function() {
-        const selectedValue = this.value;
-        const teapaiRadios = document.querySelectorAll('input[name="teapai"]');
         
-        if (selectedValue === 'No') {
-          // Hide Tea Pai question and reset selection
-          if (teapaiQuestion) {
-            teapaiQuestion.classList.remove('show');
-            teapaiRadios.forEach(radio => {
-              radio.checked = false;
-              radio.closest('.bullet-option').classList.remove('selected');
-            });
-          }
-          
-          // Auto-select 0 guests and disable the select
-          guestsSelect.value = '0';
-          guestsSelect.disabled = true;
-          guestsSelect.style.opacity = '0.6';
-          guestsSelect.style.cursor = 'not-allowed';
-        } else if (selectedValue === 'Yes') {
-          // Show Tea Pai question
-          if (teapaiQuestion) {
-            teapaiQuestion.classList.add('show');
-          }
-          
-          // Enable guest selection and reset to default
-          guestsSelect.disabled = false;
-          guestsSelect.style.opacity = '1';
-          guestsSelect.style.cursor = 'pointer';
-          guestsSelect.value = ''; // Reset to default
-        } else {
-          // Hide Tea Pai question if no selection
-          if (teapaiQuestion) {
-            teapaiQuestion.classList.remove('show');
-            teapaiRadios.forEach(radio => {
-              radio.checked = false;
-              radio.closest('.bullet-option').classList.remove('selected');
-            });
-          }
-          
-          // Reset guest select
-          guestsSelect.disabled = false;
-          guestsSelect.style.opacity = '1';
-          guestsSelect.style.cursor = 'pointer';
-          guestsSelect.value = '';
-        }
+        // Show a subtle notification that user can start music
+        showMusicNotification();
       });
+    }
+    
+    // Show subtle notification about music
+    function showMusicNotification() {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        background: rgba(201, 168, 118, 0.9);
+        color: #2c3e5a;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        z-index: 999;
+        animation: slideIn 0.5s ease-out;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      `;
+      notification.textContent = '🎵 Click to play background music';
+      document.body.appendChild(notification);
       
-      // Handle bullet point radio button styling
-      document.addEventListener('change', function(e) {
-        if (e.target.type === 'radio' && e.target.name === 'teapai') {
-          // Remove selected class from all teapai options
-          document.querySelectorAll('input[name="teapai"]').forEach(radio => {
+      // Auto-remove notification after 4 seconds
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.style.animation = 'fadeOut 0.5s ease-out';
+          setTimeout(() => {
+            if (notification.parentNode) {
+              document.body.removeChild(notification);
+            }
+          }, 500);
+        }
+      }, 4000);
+    }
+    
+    // Try autoplay on page load
+    setTimeout(() => {
+      attemptAutoplay();
+    }, 500);
+    
+    // Also try autoplay on first user interaction (more likely to succeed)
+    let hasTriedUserInteraction = false;
+    document.addEventListener('click', function() {
+      if (!hasTriedUserInteraction && !isPlaying) {
+        hasTriedUserInteraction = true;
+        attemptAutoplay();
+      }
+    }, { once: true });
+    
+    // Audio toggle functionality
+    audioToggle.addEventListener('click', function() {
+      if (isPlaying) {
+        backgroundMusic.pause();
+        audioIcon.textContent = '🔇';
+        audioText.textContent = 'Play Music';
+        audioToggle.classList.remove('playing');
+        isPlaying = false;
+      } else {
+        backgroundMusic.play().then(() => {
+          audioIcon.textContent = '🔊';
+          audioText.textContent = 'Pause Music';
+          audioToggle.classList.add('playing');
+          isPlaying = true;
+        }).catch(error => {
+          console.log('Audio play failed:', error);
+          alert('Unable to play music. Please try clicking the music button again.');
+        });
+      }
+    });
+    
+    // Handle audio end (if not looped)
+    backgroundMusic.addEventListener('ended', function() {
+      audioIcon.textContent = '🔇';
+      audioText.textContent = 'Play Music';
+      audioToggle.classList.remove('playing');
+      isPlaying = false;
+    });
+    
+    // Replace with your Google Apps Script Web App URL
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbztwynNZfKjh8us1_uIHvo7YrFislXBLq5a33i93buQoJE5oLcyH7OOPKhXu4gczt2-rg/exec";
+    
+    // Handle attendance change to show/hide Tea Pai question and auto-fill guest count
+    attendanceSelect.addEventListener('change', function() {
+      const selectedValue = this.value;
+      const teapaiRadios = document.querySelectorAll('input[name="teapai"]');
+      
+      if (selectedValue === 'No') {
+        // Hide Tea Pai question and reset selection
+        if (teapaiQuestion) {
+          teapaiQuestion.classList.remove('show');
+          teapaiRadios.forEach(radio => {
+            radio.checked = false;
             radio.closest('.bullet-option').classList.remove('selected');
           });
-          // Add selected class to the chosen option
-          e.target.closest('.bullet-option').classList.add('selected');
-        }
-      });
-      
-      // Form submission handler with Google Sheets integration
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const name = document.getElementById('name').value.trim();
-        const attendance = document.getElementById('attendance').value;
-        const guests = document.getElementById('guests').value;
-        const teapai = document.querySelector('input[name="teapai"]:checked')?.value || '';
-        
-        // Validate form - only require teapai if attending
-        if (!name || !attendance || !guests || (attendance === 'Yes' && !teapai)) {
-          alert('Please fill in all required fields');
-          return;
         }
         
-        // Disable button and show loading
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span>Submitting...</span>';
+        // Auto-select 0 guests and disable the select
+        guestsSelect.value = '0';
+        guestsSelect.disabled = true;
+        guestsSelect.style.opacity = '0.6';
+        guestsSelect.style.cursor = 'not-allowed';
+      } else if (selectedValue === 'Yes') {
+        // Show Tea Pai question
+        if (teapaiQuestion) {
+          teapaiQuestion.classList.add('show');
+        }
         
-        console.log('Submitting data:', { name, attendance, guests, teapai });
+        // Enable guest selection and reset to default
+        guestsSelect.disabled = false;
+        guestsSelect.style.opacity = '1';
+        guestsSelect.style.cursor = 'pointer';
+        guestsSelect.value = ''; // Reset to default
+      } else {
+        // Hide Tea Pai question if no selection
+        if (teapaiQuestion) {
+          teapaiQuestion.classList.remove('show');
+          teapaiRadios.forEach(radio => {
+            radio.checked = false;
+            radio.closest('.bullet-option').classList.remove('selected');
+          });
+        }
         
-        // Create hidden iframe for Google Apps Script submission
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.name = 'rsvp_frame';
-        document.body.appendChild(iframe);
-
-        // Create a form that submits to the iframe
-        const hiddenForm = document.createElement('form');
-        hiddenForm.method = 'POST';
-        hiddenForm.action = SCRIPT_URL;
-        hiddenForm.target = 'rsvp_frame';
-
-        // Add form fields
-        const formData = { name, attendance, guests, teapai };
-        Object.keys(formData).forEach(key => {
-          const input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = key;
-          input.value = formData[key];
-          hiddenForm.appendChild(input);
+        // Reset guest select
+        guestsSelect.disabled = false;
+        guestsSelect.style.opacity = '1';
+        guestsSelect.style.cursor = 'pointer';
+        guestsSelect.value = '';
+      }
+    });
+    
+    // Handle bullet point radio button styling
+    document.addEventListener('change', function(e) {
+      if (e.target.type === 'radio' && e.target.name === 'teapai') {
+        // Remove selected class from all teapai options
+        document.querySelectorAll('input[name="teapai"]').forEach(radio => {
+          radio.closest('.bullet-option').classList.remove('selected');
         });
+        // Add selected class to the chosen option
+        e.target.closest('.bullet-option').classList.add('selected');
+      }
+    });
+    
+    // Form submission handler with Google Sheets integration
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('name').value.trim();
+      const attendance = document.getElementById('attendance').value;
+      const guests = document.getElementById('guests').value;
+      const teapai = document.querySelector('input[name="teapai"]:checked')?.value || '';
+      
+      // Validate form - only require teapai if attending
+      if (!name || !attendance || !guests || (attendance === 'Yes' && !teapai)) {
+        alert('Please fill in all required fields');
+        return;
+      }
+      
+      // Disable button and show loading
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Submitting...</span>';
+      
+      console.log('Submitting data:', { name, attendance, guests, teapai });
+      
+      // Create hidden iframe for Google Apps Script submission
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.name = 'rsvp_frame';
+      document.body.appendChild(iframe);
 
-        document.body.appendChild(hiddenForm);
+      // Create a form that submits to the iframe
+      const hiddenForm = document.createElement('form');
+      hiddenForm.method = 'POST';
+      hiddenForm.action = SCRIPT_URL;
+      hiddenForm.target = 'rsvp_frame';
 
-        // Handle iframe load (success/error)
-        let submitted = false;
-        iframe.onload = function() {
-          if (!submitted) return; // Ignore initial load
+      // Add form fields
+      const formData = { name, attendance, guests, teapai };
+      Object.keys(formData).forEach(key => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = formData[key];
+        hiddenForm.appendChild(input);
+      });
+
+      document.body.appendChild(hiddenForm);
+
+      // Handle iframe load (success/error)
+      let submitted = false;
+      iframe.onload = function() {
+        if (!submitted) return; // Ignore initial load
+        
+        console.log('Form submitted successfully to Google Sheets');
+        
+        // Show success message with your original styling
+        successMessage.classList.add('show');
+        
+        // Change button to submitted state and lock it permanently
+        submitBtn.innerHTML = '<span>✓ Submitted</span>';
+        submitBtn.disabled = true;
+        submitBtn.style.background = '#28a745';
+        submitBtn.style.cursor = 'not-allowed';
+        submitBtn.style.opacity = '0.8';
+        
+        // Disable all form inputs to prevent re-submission
+        const allInputs = form.querySelectorAll('input, select');
+        allInputs.forEach(input => {
+          input.disabled = true;
+          input.style.opacity = '0.6';
+          input.style.cursor = 'not-allowed';
+        });
+        
+        // Reset Tea Pai question visibility but keep it disabled
+        // if (teapaiQuestion) {
+        //   teapaiQuestion.classList.remove('show');
+        //   const teapaiRadios = document.querySelectorAll('input[name="teapai"]');
+        //   teapaiRadios.forEach(radio => {
+        //     radio.checked = false;
+        //     radio.closest('.bullet-option').classList.remove('selected');
+        //     radio.closest('.bullet-option').style.opacity = '0.6';
+        //     radio.closest('.bullet-option').style.cursor = 'not-allowed';
+        //   });
+        // Keep Tea Pai question visible and maintain selection
+        if (teapaiQuestion && teapaiQuestion.classList.contains('show')) {
+          const teapaiRadios = document.querySelectorAll('input[name="teapai"]');
+          teapaiRadios.forEach(radio => {
+            if (radio.checked) {
+              // Keep the selected option highlighted
+              radio.closest('.bullet-option').classList.add('selected');
+            }
+            // Disable editing but keep visual state
+            radio.disabled = true;
+            radio.closest('.bullet-option').style.opacity = '0.8';
+            radio.closest('.bullet-option').style.cursor = 'not-allowed';
+          });
+        }
+        
+        // Cleanup iframe and hidden form
+        document.body.removeChild(iframe);
+        document.body.removeChild(hiddenForm);
+        
+        // Hide success message after 8 seconds (longer since form is locked)
+        setTimeout(() => {
+          successMessage.classList.remove('show');
+        }, 8000);
+      };
+
+      // Submit the hidden form
+      setTimeout(() => {
+        submitted = true;
+        hiddenForm.submit();
+      }, 100);
+
+      // Fallback timeout in case of issues
+      setTimeout(() => {
+        if (submitted && submitBtn.disabled) {
+          console.log('Fallback timeout - assuming success');
           
-          console.log('Form submitted successfully to Google Sheets');
-          
-          // Show success message with your original styling
+          // Show success message
           successMessage.classList.add('show');
           
-          // Reset form
-          form.reset();
-          
-          // Reset guest select state
-          guestsSelect.disabled = false;
-          guestsSelect.style.opacity = '1';
-          guestsSelect.style.cursor = 'pointer';
-          
-          // Reset Tea Pai question
+          // After iframe load (success)
+          // Keep Tea Pai visible and keep the selection
+          // After iframe load (success)
+          // After iframe load (success)
           if (teapaiQuestion) {
-            teapaiQuestion.classList.remove('show');
+            teapaiQuestion.classList.add('show'); // keep Tea Pai visible
+
             const teapaiRadios = document.querySelectorAll('input[name="teapai"]');
             teapaiRadios.forEach(radio => {
-              radio.checked = false;
-              radio.closest('.bullet-option').classList.remove('selected');
+              if (radio.checked) {
+                // 🔥 ensure highlight stays on the chosen option
+                radio.closest('.bullet-option').classList.add('selected');
+              }
+              // disable editing but keep visible
+              radio.disabled = true;
+              radio.closest('.bullet-option').style.opacity = '0.8';
+              radio.closest('.bullet-option').style.cursor = 'not-allowed';
             });
           }
-          
-          // Cleanup iframe and hidden form
-          document.body.removeChild(iframe);
-          document.body.removeChild(hiddenForm);
-          
-          // Reset button
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = '<span>Submit RSVP</span>';
-          
+         
           // Hide success message after 5 seconds
           setTimeout(() => {
             successMessage.classList.remove('show');
           }, 5000);
-        };
-
-        // Submit the hidden form
-        setTimeout(() => {
-          submitted = true;
-          hiddenForm.submit();
-        }, 100);
-
-        // Fallback timeout in case of issues
-        setTimeout(() => {
-          if (submitted && submitBtn.disabled) {
-            console.log('Fallback timeout - assuming success');
-            
-            // Show success message
-            successMessage.classList.add('show');
-            
-            // Reset form
-            form.reset();
-            
-            // Reset guest select state
-            guestsSelect.disabled = false;
-            guestsSelect.style.opacity = '1';
-            guestsSelect.style.cursor = 'pointer';
-            
-            // Reset Tea Pai question
-            if (teapaiQuestion) {
-              teapaiQuestion.classList.remove('show');
-              const teapaiRadios = document.querySelectorAll('input[name="teapai"]');
-              teapaiRadios.forEach(radio => {
-                radio.checked = false;
-                radio.closest('.bullet-option').classList.remove('selected');
-              });
-            }
-            
-            // Cleanup if elements still exist
-            if (document.body.contains(iframe)) document.body.removeChild(iframe);
-            if (document.body.contains(hiddenForm)) document.body.removeChild(hiddenForm);
-            
-            // Reset button state
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<span>Submit RSVP</span>';
-            
-            // Hide success message after 5 seconds
-            setTimeout(() => {
-              successMessage.classList.remove('show');
-            }, 5000);
-          }
-        }, 8000);
-      });
-
-      // Add subtle animations to form elements
-      const formElements = document.querySelectorAll('.styled-select, .name-input');
-      formElements.forEach(element => {
-        element.addEventListener('focus', function() {
-          this.style.transform = 'scale(1.02)';
-          this.style.transition = 'transform 0.2s ease';
-        });
-        
-        element.addEventListener('blur', function() {
-          this.style.transform = 'scale(1)';
-        });
-      });
+        }
+      }, 8000);
     });
 
-    // Optional: Download function for Excel export
-    function downloadExcel() {
-      alert("Excel download feature needs additional setup. Check your Google Sheet directly for now.");
-    }
+    // Add subtle animations to form elements
+    const formElements = document.querySelectorAll('.styled-select, .name-input');
+    formElements.forEach(element => {
+      element.addEventListener('focus', function() {
+        this.style.transform = 'scale(1.02)';
+        this.style.transition = 'transform 0.2s ease';
+      });
+      
+      element.addEventListener('blur', function() {
+        this.style.transform = 'scale(1)';
+      });
+    });
+  });
+
+  // Optional: Download function for Excel export
+  function downloadExcel() {
+    alert("Excel download feature needs additional setup. Check your Google Sheet directly for now.");
+  }
   </script>
 </body>
 </html>
